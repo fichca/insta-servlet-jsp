@@ -2,6 +2,7 @@ package by.insta.dao;
 
 import by.insta.entity.Post;
 import by.insta.Constant;
+import by.insta.entity.User;
 
 import java.net.URL;
 import java.util.ArrayList;
@@ -15,9 +16,9 @@ public class PostStorageImpl implements PostStorage {
 
 
     @Override
-    public boolean add(URL url, String title, String description){
+    public boolean add(Post post){
         int size = posts.size();
-        Post post = new Post(++size, url, title, description);
+        post.setId(++size);
         return posts.add(post);
     }
 

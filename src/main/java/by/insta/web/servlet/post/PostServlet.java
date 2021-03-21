@@ -1,4 +1,4 @@
-package by.insta.web.servlet;
+package by.insta.web.servlet.post;
 
 import by.insta.entity.Post;
 import by.insta.Constant;

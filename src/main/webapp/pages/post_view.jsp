@@ -7,37 +7,64 @@
 <body>
 <jsp:include page="../_header.jsp"/>
 <div class="container">
-<%--        <div class="row justify-content-center">--%>
-    <%--        <div class="col-6"> --%>
     <div class="row justify-content-md-center">
+
+
         <div class="col-6">
+            <p><strong>${requestScope.post.user.name}</strong></p>
             <img class="card-img-top" src="${requestScope.post.url}" alt="${requestScope.post.url}">
+
+            <div class="row">
+                <div class="col-1">
+                    <c:if test="${sessionScope.user != null}">
+                    <a class="btn btn-primary" href="/addLike?postId=${requestScope.post.id}" role="button">
+                        </c:if>
+
+                        <c:if test="${sessionScope.user == null}">
+                        <a class="btn btn-primary" href="#" role="button">
+                            </c:if>
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                 fill="currentColor"
+                                 class="bi bi-heart" viewBox="0 0 16 16">
+                                <path d="M8 2.748l-.717-.737C5.6.281 2.514.878 1.4 3.053c-.523 1.023-.641 2.5.314 4.385.92 1.815 2.834 3.989 6.286 6.357 3.452-2.368 5.365-4.542 6.286-6.357.955-1.886.838-3.362.314-4.385C13.486.878 10.4.28 8.717 2.01L8 2.748zM8 15C-7.333 4.868 3.279-3.04 7.824 1.143c.06.055.119.112.176.171a3.12 3.12 0 0 1 .176-.17C12.72-3.042 23.333 4.867 8 15z"/>
+                            </svg>
+                        </a>
+                </div>
+                <div class="col">
+                    <p> ${requestScope.likes.size()}</p>
+                </div>
+            </div>
+
             <h1 class="display-4">${requestScope.post.title}</h1>
             <p class="lead"><em>${requestScope.post.description}</em></p><br>
         </div>
+
+
         <div class="col col-3">
-            <div class="mb-3">
-                <form action="/addComment" method="post">
-                    <input type="hidden" name="postId" value="${requestScope.post.id}">
-                    <%--                    <label for="comment" class="form-label">Write comment</label>--%>
-
-                    <div class="input-group mb-3">
-                        <input type="text" placeholder="Write comment" name="comment" class="form-control" id="comment"
-                               aria-describedby="comment" minlength="3" maxlength="16" required>
-                        <div class="input-group-append">
-                            <button type="submit" class="btn btn-outline-secondary">Submit</button>
-                        </div>
-                    </div>
-                </form>
-
-                <c:forEach items="${requestScope.post.comments}" var="comment">
-                    ${comment.comment}
-                    <br>
-                </c:forEach>
-
+            <div class="row">
+                <div class="mb-3">
+                    <c:if test="${sessionScope.user != null}">
+                        <form action="/addComment" method="post">
+                            <input type="hidden" name="postId" value="${requestScope.post.id}">
+                            <div class="input-group mb-3">
+                                <textarea name="comment" cols="30" rows="10" required></textarea>
+                                <div class="input-group-append">
+                                    <button type="submit" class="btn btn-outline-secondary">Submit</button>
+                                </div>
+                            </div>
+                        </form>
+                    </c:if>
+                </div>
+                <div class="mb-3">
+                    <c:if test="${sessionScope.user == null}">
+                        <br>
+                    </c:if>
+                    <c:forEach items="${requestScope.post.comments}" var="comment">
+                        <p>${comment.comment} <em><small>${comment.date.toGMTString()}</small></em></p>
+                    </c:forEach>
+                </div>
             </div>
 
-            <%--        <div class="row justify-content-center">--%>
             <div class="col-md-auto">
                 <nav aria-label="Page navigation example">
                     <ul class="pagination pagination-lg">
@@ -61,7 +88,6 @@
                     </ul>
                 </nav>
             </div>
-            <%--        </div>--%>
         </div>
     </div>
 </div>

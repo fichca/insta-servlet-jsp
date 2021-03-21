@@ -1,6 +1,8 @@
-package by.insta.web.servlet;
+package by.insta.web.servlet.post;
 
 import by.insta.dao.PostStorageImpl;
+import by.insta.entity.Post;
+import by.insta.entity.User;
 import by.insta.service.PostService;
 import by.insta.service.PostServiceImpl;
 
@@ -13,7 +15,7 @@ import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
 
-@WebServlet(urlPatterns = "/createPost")
+@WebServlet(urlPatterns = "/createPost", name = "CreatePostServlet")
 public class CreatePostServlet extends HttpServlet {
 
     PostService postStorage = new PostServiceImpl(new PostStorageImpl());
@@ -32,7 +34,8 @@ public class CreatePostServlet extends HttpServlet {
         String title = req.getParameter("title");
         String description = req.getParameter("description");
         String urlString = req.getParameter("URL");
-        URL url = null;
+        User user = (User) req.getSession().getAttribute("user");
+        URL url;
         String result;
 
         try {
@@ -45,7 +48,7 @@ public class CreatePostServlet extends HttpServlet {
         }
 
 
-        if (postStorage.add(url, title, description)) {
+        if (postStorage.add(new Post(url, title, description, user))) {
             result = "Deal!";
         } else {
             result = "Title already in use!";

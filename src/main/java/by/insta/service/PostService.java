@@ -1,13 +1,14 @@
 package by.insta.service;
 
 import by.insta.entity.Post;
+import by.insta.entity.User;
 
 import java.net.URL;
 import java.util.List;
 
 public interface PostService {
 
-    boolean add(URL url, String title, String description);
+    boolean add(Post post);
 
     Post getById(int id);
 

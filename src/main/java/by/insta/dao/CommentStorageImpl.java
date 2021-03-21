@@ -10,10 +10,10 @@ public class CommentStorageImpl implements CommentStorage {
     private final static LinkedList<Comment> comments = new LinkedList<>();
 
     @Override
-    public boolean add(long postId, String comment) {
+    public boolean add(Comment comment) {
         int size = comments.size();
-        Comment newComment = new Comment(postId, ++size, comment);
-        comments.addFirst(newComment);
+        comment.setId(++size);
+        comments.addFirst(comment);
         return true;
     }
 
@@ -29,29 +29,35 @@ public class CommentStorageImpl implements CommentStorage {
 
     @Override
     public List<Comment> getCommentsPage(int start, long postId) {
-        if (comments.isEmpty()){
-            return comments;
+        List<Comment> allCommentsByPostId = getAllCommentsByPostId(postId);
+        if (allCommentsByPostId.isEmpty()){
+            return allCommentsByPostId;
         }
         int end = start;
-        for (int i = start; i < comments.size(); i++) {
+        for (int i = start; i < allCommentsByPostId.size(); i++) {
             if (end == start + Constant.COMMENT_ON_PAGE){
                 break;
             }
             end++;
         }
-        return comments.subList(start, end);
+        return allCommentsByPostId.subList(start, end);
     }
 
     @Override
     public int getCountCommentsPage(long postId) {
-        if (comments.isEmpty()){
+        List<Comment> allByPostId = getAllByPostId(postId);
+        if (allByPostId.isEmpty()){
             return 1;
         }
-        return ((comments.size() - 1) / Constant.COMMENT_ON_PAGE) + 1;
+        return ((allByPostId.size() - 1) / Constant.COMMENT_ON_PAGE) + 1;
     }
 
     @Override
-    public List<Comment> getAllByPostId(long postId) {
+    public List<Comment> getAllCommentsByPostId(long postId) {
+        return getAllByPostId(postId);
+    }
+
+    private List<Comment> getAllByPostId(long postId) {
         ArrayList<Comment> commentsByPost = new ArrayList<>();
         for (Comment comment : comments) {
             if (comment.getPostId() == postId){
@@ -60,6 +66,7 @@ public class CommentStorageImpl implements CommentStorage {
         }
         return commentsByPost;
     }
+
 
     @Override
     public List<Comment> getAll() {

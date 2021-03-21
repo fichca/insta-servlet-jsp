@@ -1,6 +1,8 @@
 package by.insta.web.servlet.comment;
 
 import by.insta.dao.CommentStorageImpl;
+import by.insta.entity.Comment;
+import by.insta.entity.User;
 import by.insta.service.CommentService;
 import by.insta.service.CommentServiceImpl;
 
@@ -11,7 +13,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-@WebServlet(urlPatterns = "/addComment")
+@WebServlet(urlPatterns = "/addComment", name = "AddCommentServlet")
 public class AddCommentServlet extends HttpServlet {
 
     CommentService commentService = new CommentServiceImpl(new CommentStorageImpl());
@@ -21,8 +23,9 @@ public class AddCommentServlet extends HttpServlet {
 
         String postId = req.getParameter("postId");
         String comment = req.getParameter("comment");
+        User user = (User) req.getSession().getAttribute("user");
 
-        commentService.add(Integer.parseInt(postId), comment);
+        commentService.add(new Comment(Integer.parseInt(postId), comment, user));
 
         resp.sendRedirect("/viewPost?id=" + postId);
     }

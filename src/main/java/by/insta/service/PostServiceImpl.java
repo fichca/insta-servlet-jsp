@@ -2,6 +2,7 @@ package by.insta.service;
 
 import by.insta.dao.PostStorage;
 import by.insta.entity.Post;
+import by.insta.entity.User;
 
 import java.net.URL;
 import java.util.List;
@@ -17,9 +18,9 @@ public class PostServiceImpl implements PostService {
 
 
     @Override
-    public boolean add(URL url, String title, String description) {
-        if (!postStorage.contains(title)) {
-            return postStorage.add(url, title, description);
+    public boolean add(Post post) {
+        if (!postStorage.contains(post.getTitle())) {
+            return postStorage.add(post);
         }
         return false;
     }

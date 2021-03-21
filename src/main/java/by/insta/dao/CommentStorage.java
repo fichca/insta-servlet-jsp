@@ -6,7 +6,7 @@ import java.util.List;
 
 public interface CommentStorage {
 
-    boolean add(long postId, String comment);
+    boolean add(Comment comment);
 
     Comment getById(int id);
 
@@ -14,7 +14,7 @@ public interface CommentStorage {
 
     int getCountCommentsPage(long postId);
 
-    List<Comment> getAllByPostId(long postId);
+    List<Comment> getAllCommentsByPostId(long postId);
 
     List<Comment> getAll();
 

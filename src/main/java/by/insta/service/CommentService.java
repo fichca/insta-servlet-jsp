@@ -5,7 +5,7 @@ import by.insta.entity.Comment;
 import java.util.List;
 
 public interface CommentService {
-    boolean add(long postId, String comment);
+    boolean add(Comment comment);
 
     Comment getById(int id);
 
@@ -13,7 +13,7 @@ public interface CommentService {
 
     int getCountCommentsPage(long postId);
 
-    List<Comment> getAllByPostId(long postId);
+    List<Comment> getAllCommentsByPostId(long postId);
 
     List<Comment> getAll();
 }

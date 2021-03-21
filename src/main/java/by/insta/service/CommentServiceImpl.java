@@ -15,8 +15,8 @@ public class CommentServiceImpl implements CommentService {
     }
 
     @Override
-    public boolean add(long postId, String comment) {
-        return commentStorage.add(postId, comment);
+    public boolean add(Comment comment) {
+        return commentStorage.add(comment);
     }
 
     @Override
@@ -38,8 +38,8 @@ public class CommentServiceImpl implements CommentService {
     }
 
     @Override
-    public List<Comment> getAllByPostId(long postId) {
-        return commentStorage.getAllByPostId(postId);
+    public List<Comment> getAllCommentsByPostId(long postId) {
+        return commentStorage.getAllCommentsByPostId(postId);
     }
 
     @Override

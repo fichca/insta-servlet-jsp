@@ -1,14 +1,13 @@
-package by.insta.web.servlet;
+package by.insta.web.servlet.post;
 
 import by.insta.Constant;
 import by.insta.dao.CommentStorageImpl;
+import by.insta.dao.LikeStorageImpl;
 import by.insta.dao.PostStorageImpl;
 import by.insta.entity.Comment;
+import by.insta.entity.Like;
 import by.insta.entity.Post;
-import by.insta.service.CommentService;
-import by.insta.service.CommentServiceImpl;
-import by.insta.service.PostService;
-import by.insta.service.PostServiceImpl;
+import by.insta.service.*;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -35,6 +34,7 @@ public class PostViewServlet extends HttpServlet {
 
     PostService postService = new PostServiceImpl(new PostStorageImpl());
     CommentService commentService = new CommentServiceImpl(new CommentStorageImpl());
+    LikeService likeService = new LikeServiceImpl(new LikeStorageImpl());
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -50,21 +50,30 @@ public class PostViewServlet extends HttpServlet {
 
 
         int commentPage = Integer.parseInt(commentPageString);
-
         int start = (commentPage - 1) * Constant.COMMENT_ON_PAGE;
 
         List<Comment> commentsPage = commentService.getCommentsPage(start, postId);
+
+
         int countCommentPages = commentService.getCountCommentsPage(postId);
 
-        Post post = postService.getById(postId);
-
-        post.setComments(commentsPage);
 
 
         req.setAttribute("numberCommentPage", commentPage);
         req.setAttribute("countCommentPages", countCommentPages);
-        req.setAttribute("post", post);
+
+        setPostInAttribute(req, postId, commentsPage);
 
         req.getServletContext().getRequestDispatcher("/pages/post_view.jsp").forward(req, resp);
     }
+
+    private void setPostInAttribute(HttpServletRequest req, int postId, List<Comment> commentsPage){
+        Post post = postService.getById(postId);
+        post.setComments(commentsPage);
+        List<Like> allLikesByPostId = likeService.getAllLikesByPostId(postId);
+        req.setAttribute("likes", allLikesByPostId);
+        req.setAttribute("post", post);
+    }
+
+
 }
