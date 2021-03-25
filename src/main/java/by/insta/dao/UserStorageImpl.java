@@ -20,7 +20,11 @@ public class UserStorageImpl implements UserStorage {
 
     @Override
     public User getUserById(long id) {
-        return null;
+        for (User user : users) {
+            if (user.getId() == id){
+                return user;
+            }
+        } throw new NoSuchElementException();
     }
 
     @Override
@@ -32,8 +36,80 @@ public class UserStorageImpl implements UserStorage {
     }
 
     @Override
+    public boolean deleteUserById(long id) {
+        for (User user : users) {
+            if (user.getId() == id){
+                users.remove(user);
+                return true;
+            }
+        }
+        return false;
+    }
+
+    @Override
+    public boolean deleteUserByLogin(String login) {
+        for (User user : users) {
+            if (user.getLogin().equals(login)){
+                users.remove(user);
+                return true;
+            }
+        }
+        return false;
+    }
+
+    @Override
+    public boolean deleteUserByUser(User user) {
+        for (User user1 : users) {
+            if (user1.equals(user)){
+                users.remove(user);
+                return true;
+            }
+        }
+        return false;
+    }
+
+    @Override
+    public boolean updateNameById(long id, String name) {
+        for (User user : users) {
+            if (user.getId() == id){
+                if (user.getName().equals(name)){
+                    return false;
+                }
+                user.setName(name);
+                return true;
+            }
+        }
+        return false;
+    }
+
+    @Override
+    public boolean updatePasswordById(long id, String password) {
+        for (User user : users) {
+            if (user.getId() == id){
+                if (user.getPassword().equals(password)){
+                    return false;
+                }
+                user.setPassword(password);
+                return true;
+            }
+        }
+        return false;
+    }
+
+    @Override
     public List<User> getAllUsers() {
         return users;
+    }
+
+    @Override
+    public List<User> getAllUsersByName(String name) {
+        ArrayList<User> usersByName = new ArrayList<>();
+        for (User user : users) {
+            if (user.getName().equals(name)){
+                usersByName.add(user);
+            }
+        }
+        return usersByName;
     }
 
     @Override
@@ -43,6 +119,11 @@ public class UserStorageImpl implements UserStorage {
 
     @Override
     public boolean contains(long id) {
+        for (User user : users) {
+            if (user.getId() == id){
+                return true;
+            }
+        }
         return false;
     }
 

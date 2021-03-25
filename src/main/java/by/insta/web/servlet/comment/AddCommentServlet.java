@@ -5,6 +5,7 @@ import by.insta.entity.Comment;
 import by.insta.entity.User;
 import by.insta.service.CommentService;
 import by.insta.service.CommentServiceImpl;
+import by.insta.web.servlet.Util;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -23,6 +24,10 @@ public class AddCommentServlet extends HttpServlet {
 
         String postId = req.getParameter("postId");
         String comment = req.getParameter("comment");
+        if (Util.isEmpty(comment)){
+            resp.sendRedirect("/viewPost?id=" + postId);
+            return;
+        }
         User user = (User) req.getSession().getAttribute("user");
 
         commentService.add(new Comment(Integer.parseInt(postId), comment, user));

@@ -15,14 +15,19 @@ public class Post {
     private URL url;
     private String title;
     private String description;
+    private Category category;
     private User user;
     private List<Comment> comments;
     private List<Like> likes;
 
-    public Post(URL url, String title, String description, User user) {
+
+
+
+    public Post(URL url, String title, String description, Category category, User user) {
         this.url = url;
         this.title = title;
         this.description = description;
+        this.category = category;
         this.user = user;
     }
 }

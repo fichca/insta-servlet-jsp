@@ -12,7 +12,19 @@ public interface UserStorage {
 
     User getUserByLogin(String login);
 
+    boolean deleteUserById(long id);
+
+    boolean deleteUserByLogin(String login);
+
+    boolean deleteUserByUser(User user);
+
+    boolean updateNameById(long id, String name);
+
+    boolean updatePasswordById(long id, String password);
+
     List<User> getAllUsers();
+
+    List<User> getAllUsersByName(String name);
 
     boolean contains(User user);
 

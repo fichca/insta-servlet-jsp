@@ -29,10 +29,11 @@
             </c:if>
 
             <c:if test="${sessionScope.user != null}">
-                    <a class="nav-link disabled" href="#" tabindex="-1"
-                       aria-disabled="true">Hello ${sessionScope.user.name}</a>
-                    <a class="nav-link active" aria-current="page" href="/createPost">Create post</a>
-                    <a class="nav-link active" aria-current="page" href="/logOut">Log out</a>
+                <a class="nav-link disabled" href="#" tabindex="-1"
+                   aria-disabled="true">Hello ${sessionScope.user.name}</a>
+                <a class="nav-link active" aria-current="page" href="/createPost">Create post</a>
+                <a class="nav-link active" aria-current="page" href="/userAccount">Account</a>
+                <a class="nav-link active" aria-current="page" href="/logOut">Log out</a>
             </c:if>
 
         </div>

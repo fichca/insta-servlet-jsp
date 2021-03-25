@@ -1,10 +1,15 @@
 package by.insta.web.servlet.post;
 
+import by.insta.dao.CategoryStorageImpl;
 import by.insta.dao.PostStorageImpl;
+import by.insta.entity.Category;
 import by.insta.entity.Post;
 import by.insta.entity.User;
+import by.insta.service.CategoryService;
+import by.insta.service.CategoryServiceImpl;
 import by.insta.service.PostService;
 import by.insta.service.PostServiceImpl;
+import by.insta.web.servlet.Util;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -14,26 +19,36 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.List;
+import java.util.NoSuchElementException;
 
 @WebServlet(urlPatterns = "/createPost", name = "CreatePostServlet")
 public class CreatePostServlet extends HttpServlet {
 
-    PostService postStorage = new PostServiceImpl(new PostStorageImpl());
+    PostService postService = new PostServiceImpl(new PostStorageImpl());
+    CategoryService categoryService = new CategoryServiceImpl(new CategoryStorageImpl());
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         req.setAttribute("isErrors", false);
-        req.getServletContext().getRequestDispatcher("/pages/create_post.jsp").forward(req, resp);
+        List<Category> categories = categoryService.getAllCategory();
+        req.setAttribute("categories", categories);
+        req.getServletContext().getRequestDispatcher("/pages/post/create_post.jsp").forward(req, resp);
     }
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
         req.setAttribute("isErrors", true);
+        List<Category> categories = categoryService.getAllCategory();
+        req.setAttribute("categories", categories);
 
         String title = req.getParameter("title");
         String description = req.getParameter("description");
         String urlString = req.getParameter("URL");
+        String categoryName = req.getParameter("category");
+
+
         User user = (User) req.getSession().getAttribute("user");
         URL url;
         String result;
@@ -43,18 +58,45 @@ public class CreatePostServlet extends HttpServlet {
         } catch (MalformedURLException e) {
             result = "Invalid URL";
             req.setAttribute("result", result);
-            req.getServletContext().getRequestDispatcher("/pages/create_post.jsp").forward(req, resp);
+            req.getServletContext().getRequestDispatcher("/pages/post/create_post.jsp").forward(req, resp);
             return;
         }
 
+        result = validate(title, description, categoryName);
+        if (!result.isEmpty()){
+            req.setAttribute("result", result);
+            req.getServletContext().getRequestDispatcher("/pages/post/create_post.jsp").forward(req, resp);
+            return;
+        }
 
-        if (postStorage.add(new Post(url, title, description, user))) {
+        Category category;
+        try {
+            category = categoryService.getCategoryByName(categoryName);
+        }catch (NoSuchElementException e){
+            result = "Invalid category";
+            req.setAttribute("result", result);
+            req.getServletContext().getRequestDispatcher("/pages/post/create_post.jsp").forward(req, resp);
+            return;
+        }
+        Post post = new Post(url, title, description, category, user);
+        if (postService.add(post)) {
             result = "Deal!";
         } else {
             result = "Title already in use!";
         }
 
+
         req.setAttribute("result", result);
-        req.getServletContext().getRequestDispatcher("/pages/create_post.jsp").forward(req, resp);
+        req.getServletContext().getRequestDispatcher("/pages/post/create_post.jsp").forward(req, resp);
+    }
+
+    private String validate(String title, String description, String category){
+        if (Util.isEmpty(title)){
+            return "Invalidate title";
+        }else if (Util.isEmpty(description)){
+            return "Invalidate description";
+        }else if (Util.isEmpty(category)) {
+            return "Invalidate category";
+        } else return "";
     }
 }

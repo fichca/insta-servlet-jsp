@@ -24,7 +24,10 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User getUserById(long id) {
-        return null;
+        if (userStorage.contains(id)){
+            return userStorage.getUserById(id);
+        }
+        throw new NoSuchElementException();
     }
 
     @Override
@@ -36,8 +39,52 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public boolean deleteUserById(long id) {
+        if (userStorage.contains(id)){
+            return userStorage.deleteUserById(id);
+        }
+        return false;
+    }
+
+    @Override
+    public boolean deleteUserByLogin(String login) {
+        if (userStorage.contains(login)){
+            return userStorage.deleteUserByLogin(login);
+        }
+        return false;
+    }
+
+    @Override
+    public boolean deleteUserByUser(User user) {
+        if (userStorage.contains(user)){
+            return userStorage.deleteUserByUser(user);
+        }
+        return false;
+    }
+
+    @Override
+    public boolean updateNameById(long id, String name) {
+        if (userStorage.contains(id)){
+            return userStorage.updateNameById(id, name);
+        }
+        return false;
+    }
+
+    @Override
+    public boolean updatePasswordById(long id, String password) {
+        if (userStorage.contains(id)){
+            return userStorage.updateNameById(id, password);
+        }
+        return false;
+    }
+
+    @Override
     public List<User> getAllUsers() {
         return userStorage.getAllUsers();
     }
 
+    @Override
+    public List<User> getAllUsersByName(String name) {
+        return userStorage.getAllUsersByName(name);
+    }
 }

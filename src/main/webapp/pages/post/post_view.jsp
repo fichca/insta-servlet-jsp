@@ -5,7 +5,7 @@
     <title>Registration</title>
 </head>
 <body>
-<jsp:include page="../_header.jsp"/>
+<jsp:include page="../../_header.jsp"/>
 <div class="container">
     <div class="row justify-content-md-center">
 
@@ -17,11 +17,11 @@
             <div class="row">
                 <div class="col-1">
                     <c:if test="${sessionScope.user != null}">
-                    <a class="btn btn-primary" href="/addLike?postId=${requestScope.post.id}" role="button">
+                    <a class="btn btn-dark" href="/addLike?postId=${requestScope.post.id}" role="button">
                         </c:if>
 
                         <c:if test="${sessionScope.user == null}">
-                        <a class="btn btn-primary" href="#" role="button">
+                        <a class="btn btn-dark" href="#" role="button">
                             </c:if>
                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
                                  fill="currentColor"
@@ -31,7 +31,31 @@
                         </a>
                 </div>
                 <div class="col">
-                    <p> ${requestScope.likes.size()}</p>
+
+                    <c:if test="${sessionScope.user != null}">
+                        <div class="dropdown">
+                            <a class="btn btn-dark dropdown-toggle" href="/likesView?postId=${requestScope.post.id}"
+                               role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
+                                    ${requestScope.post.likes.size()}
+                            </a>
+
+                            <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                                <li><a class="dropdown-item"
+                                       href="/likesView?postId=${requestScope.post.id}"><em>Show all likes</em></a>
+                                </li>
+                                <li>
+                                    <hr class="dropdown-divider">
+                                </li>
+                                <c:forEach items="${requestScope.post.likes}" var="like">
+                                    <li><a class="dropdown-item" href="#">${like.user.name}</a></li>
+                                </c:forEach>
+                            </ul>
+                        </div>
+                    </c:if>
+
+                    <c:if test="${sessionScope.user == null}">
+                        <p> ${requestScope.post.likes.size()}</p>
+                    </c:if>
                 </div>
             </div>
 
@@ -47,7 +71,7 @@
                         <form action="/addComment" method="post">
                             <input type="hidden" name="postId" value="${requestScope.post.id}">
                             <div class="input-group mb-3">
-                                <textarea name="comment" cols="30" rows="10" required></textarea>
+                                <textarea name="comment" cols="30" rows="10" required minlength="1" maxlength="255"></textarea>
                                 <div class="input-group-append">
                                     <button type="submit" class="btn btn-outline-secondary">Submit</button>
                                 </div>
@@ -60,14 +84,14 @@
                         <br>
                     </c:if>
                     <c:forEach items="${requestScope.post.comments}" var="comment">
-                        <p>${comment.comment} <em><small>${comment.date.toGMTString()}</small></em></p>
+                        <p><em>${comment.user.name}:</em> ${comment.comment} <em><small>(${comment.date.toGMTString()})</small></em></p>
                     </c:forEach>
                 </div>
             </div>
 
             <div class="col-md-auto">
                 <nav aria-label="Page navigation example">
-                    <ul class="pagination pagination-lg">
+                    <ul class="pagination pagination-sm">
 
                         <c:if test="${requestScope.countCommentPages > 1}">
                             <c:forEach begin="1" end="${requestScope.countCommentPages}" var="number">

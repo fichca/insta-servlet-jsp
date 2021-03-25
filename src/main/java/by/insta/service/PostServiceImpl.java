@@ -1,6 +1,9 @@
 package by.insta.service;
 
+import by.insta.dao.LikeStorageImpl;
 import by.insta.dao.PostStorage;
+import by.insta.entity.Category;
+import by.insta.entity.Like;
 import by.insta.entity.Post;
 import by.insta.entity.User;
 
@@ -11,6 +14,7 @@ import java.util.NoSuchElementException;
 public class PostServiceImpl implements PostService {
 
     private final PostStorage postStorage;
+    LikeService likeService = new LikeServiceImpl(new LikeStorageImpl());
 
     public PostServiceImpl(PostStorage postStorage) {
         this.postStorage = postStorage;
@@ -26,9 +30,12 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
-    public Post getById(int id) {
+    public Post getById(long id) {
         if (postStorage.contains(id)) {
-            return postStorage.getById(id);
+            List<Like> allLikesByPostId = likeService.getAllLikesByPostId(id);
+            Post post = postStorage.getById(id);
+            post.setLikes(allLikesByPostId);
+            return post;
         }
         throw new NoSuchElementException();
     }
@@ -53,5 +60,15 @@ public class PostServiceImpl implements PostService {
     @Override
     public List<Post> getAll() {
         return postStorage.getAll();
+    }
+
+    @Override
+    public List<Post> getAllByUser(User user) {
+        return postStorage.getAllByUser(user);
+    }
+
+    @Override
+    public List<Post> getAllByCategory(Category category) {
+        return postStorage.getAllByCategory(category);
     }
 }

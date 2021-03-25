@@ -1,5 +1,6 @@
 package by.insta.dao;
 
+import by.insta.entity.Category;
 import by.insta.entity.Post;
 import by.insta.entity.User;
 
@@ -10,7 +11,7 @@ public interface PostStorage {
 
     boolean add(Post post);
 
-    Post getById(int id);
+    Post getById(long id);
 
     Post getByTitle(String title);
 
@@ -20,10 +21,14 @@ public interface PostStorage {
 
     List<Post> getAll();
 
+    List<Post> getAllByUser(User user);
+
+    List<Post> getAllByCategory(Category category);
+
     boolean contains(String title);
 
     boolean contains(Post post);
 
-    boolean contains(int id);
+    boolean contains(long id);
 
 }

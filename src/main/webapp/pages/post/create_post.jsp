@@ -1,4 +1,3 @@
-
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <html>
@@ -6,7 +5,7 @@
     <title>Create post</title>
 </head>
 <body>
-<jsp:include page="../_header.jsp"/>
+<jsp:include page="../../_header.jsp"/>
 <div class="container">
     <div class="row">
         <div class="col-sm">
@@ -28,6 +27,16 @@
                     <label for="description" class="form-label">Write description</label>
                     <input type="text" name="description" class="form-control" id="description"
                            aria-describedby="description" minlength="3" maxlength="255" required>
+                </div>
+
+                <div class="mb-3">
+                    <label for="category" class="form-label">Select a category</label>
+                    <select class="form-select" id="category" name="category" aria-label="Default select example">
+                        <option disabled>Select a category</option>
+                        <c:forEach items="${requestScope.categories}" var="category">
+                            <option value=${category.name}>${category.name}</option>
+                        </c:forEach>
+                    </select>
                 </div>
 
                 <div class="mb-3">

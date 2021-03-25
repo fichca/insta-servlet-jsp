@@ -19,7 +19,7 @@ public class AuthorizationServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        req.getServletContext().getRequestDispatcher("/registration/authorization.jsp").forward(req, resp);
+        req.getServletContext().getRequestDispatcher("/pages/registration/authorization.jsp").forward(req, resp);
     }
 
     @Override
@@ -36,7 +36,7 @@ public class AuthorizationServlet extends HttpServlet {
         } catch (NoSuchElementException e) {
             req.setAttribute("isErrors", true);
             req.setAttribute("result", "Invalid login");
-            req.getServletContext().getRequestDispatcher("/registration/authorization.jsp").forward(req, resp);
+            req.getServletContext().getRequestDispatcher("/pages/registration/authorization.jsp").forward(req, resp);
             return;
         }
 
@@ -46,7 +46,7 @@ public class AuthorizationServlet extends HttpServlet {
         } else {
             req.setAttribute("isErrors", true);
             req.setAttribute("result", "Invalid password");
-            req.getServletContext().getRequestDispatcher("/registration/authorization.jsp").forward(req, resp);
+            req.getServletContext().getRequestDispatcher("/pages/registration/authorization.jsp").forward(req, resp);
         }
     }
 }

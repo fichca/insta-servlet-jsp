@@ -1,5 +1,6 @@
 package by.insta.service;
 
+import by.insta.entity.Category;
 import by.insta.entity.Post;
 import by.insta.entity.User;
 
@@ -10,7 +11,7 @@ public interface PostService {
 
     boolean add(Post post);
 
-    Post getById(int id);
+    Post getById(long id);
 
     Post getByTitle(String title);
 
@@ -19,4 +20,8 @@ public interface PostService {
     int getCountPages();
 
     List<Post> getAll();
+
+    List<Post> getAllByUser(User user);
+
+    List<Post> getAllByCategory(Category category);
 }

@@ -5,7 +5,7 @@
     <title>authorization</title>
 </head>
 <body>
-<jsp:include page="../_header.jsp"/>
+<jsp:include page="../../_header.jsp"/>
 <div class="container">
 
     <div class="row justify-content-center">

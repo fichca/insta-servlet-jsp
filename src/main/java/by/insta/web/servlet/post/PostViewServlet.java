@@ -25,16 +25,10 @@ import java.util.List;
 @WebServlet(urlPatterns = "/viewPost")
 public class PostViewServlet extends HttpServlet {
 
-//    public static void main(String[] args) {
-//        Date date = new Date();
-//        Calendar calendar = Calendar.getInstance();
-//        LocalDate ld = LocalDate.now();
-//        LocalTime localTime = LocalTime.now();
-//    }
+//    p
 
     PostService postService = new PostServiceImpl(new PostStorageImpl());
     CommentService commentService = new CommentServiceImpl(new CommentStorageImpl());
-    LikeService likeService = new LikeServiceImpl(new LikeStorageImpl());
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -47,32 +41,22 @@ public class PostViewServlet extends HttpServlet {
         }
 
         int postId = Integer.parseInt(id);
-
-
         int commentPage = Integer.parseInt(commentPageString);
         int start = (commentPage - 1) * Constant.COMMENT_ON_PAGE;
-
         List<Comment> commentsPage = commentService.getCommentsPage(start, postId);
-
-
         int countCommentPages = commentService.getCountCommentsPage(postId);
-
-
-
         req.setAttribute("numberCommentPage", commentPage);
         req.setAttribute("countCommentPages", countCommentPages);
 
         setPostInAttribute(req, postId, commentsPage);
 
-        req.getServletContext().getRequestDispatcher("/pages/post_view.jsp").forward(req, resp);
+        req.getServletContext().getRequestDispatcher("/pages/post/post_view.jsp").forward(req, resp);
     }
 
     private void setPostInAttribute(HttpServletRequest req, int postId, List<Comment> commentsPage){
         Post post = postService.getById(postId);
         post.setComments(commentsPage);
-        List<Like> allLikesByPostId = likeService.getAllLikesByPostId(postId);
-        req.setAttribute("likes", allLikesByPostId);
-        req.setAttribute("post", post);
+       req.setAttribute("post", post);
     }
 
 

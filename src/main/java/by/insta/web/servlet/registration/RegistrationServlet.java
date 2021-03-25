@@ -4,6 +4,7 @@ import by.insta.dao.UserStorageImpl;
 import by.insta.entity.User;
 import by.insta.service.UserService;
 import by.insta.service.UserServiceImpl;
+import by.insta.web.servlet.Util;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -18,7 +19,7 @@ public class RegistrationServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        req.getServletContext().getRequestDispatcher("/registration/registration.jsp").forward(req, resp);
+        req.getServletContext().getRequestDispatcher("/pages/registration/registration.jsp").forward(req, resp);
     }
 
     @Override
@@ -28,18 +29,33 @@ public class RegistrationServlet extends HttpServlet {
         String login = req.getParameter("login");
         String password = req.getParameter("password");
 
+        String result = validate(name, login, password);
+
+        if (!result.isEmpty()){
+            req.setAttribute("result", result);
+            req.getServletContext().getRequestDispatcher("/pages/registration/registration.jsp").forward(req, resp);
+        }
 
         User user = new User(name, login, password);
 
         if (!userService.addUser(user)){
             req.setAttribute("isErrors", true);
-            String result = "Login already use!";
+            result = "Login already use!";
             req.setAttribute("result", result);
-            req.getServletContext().getRequestDispatcher("/registration/registration.jsp").forward(req, resp);
+            req.getServletContext().getRequestDispatcher("/pages/registration/registration.jsp").forward(req, resp);
         }else {
             resp.sendRedirect("/auth");
         }
+    }
 
 
+    private String validate(String name, String login, String pass){
+        if (Util.isEmpty(name)){
+            return "Invalidate name";
+        }else if (Util.isEmpty(login)){
+            return "Invalidate login";
+        }else if (Util.isEmpty(pass)) {
+            return "Invalidate password";
+        } else return "";
     }
 }
