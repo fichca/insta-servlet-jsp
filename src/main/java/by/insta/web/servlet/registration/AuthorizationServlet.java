@@ -2,6 +2,7 @@ package by.insta.web.servlet.registration;
 
 import by.insta.dao.UserStorageImpl;
 import by.insta.entity.User;
+import by.insta.service.PostService;
 import by.insta.service.UserService;
 import by.insta.service.UserServiceImpl;
 
@@ -15,8 +16,13 @@ import java.util.NoSuchElementException;
 
 @WebServlet(urlPatterns = "/auth", name = "AuthorizationServlet")
 public class AuthorizationServlet extends HttpServlet {
-    private UserService userService = new UserServiceImpl(new UserStorageImpl());
 
+    private UserService userService;
+
+    @Override
+    public void init() throws ServletException {
+        this.userService = (UserService) getServletContext().getAttribute("userService");
+    }
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         req.getServletContext().getRequestDispatcher("/pages/registration/authorization.jsp").forward(req, resp);

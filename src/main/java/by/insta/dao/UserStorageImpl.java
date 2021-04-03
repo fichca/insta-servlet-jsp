@@ -9,18 +9,24 @@ import java.util.NoSuchElementException;
 public class UserStorageImpl implements UserStorage {
 
 
-    private static final List<User> users = new ArrayList<>();
+    private static final List<User> USERS = new ArrayList<>();
 
     @Override
     public boolean addUser(User user) {
-        int size = users.size();
+        int size = USERS.size();
         user.setId(++size);
-        return users.add(user);
+        return USERS.add(user);
+    }
+
+    @Override
+    public boolean addSubscriber(User user, User subscriber) {
+        subscriber.getSubscriptions().add(user);
+       return user.getSubscribers().add(subscriber);
     }
 
     @Override
     public User getUserById(long id) {
-        for (User user : users) {
+        for (User user : USERS) {
             if (user.getId() == id){
                 return user;
             }
@@ -29,17 +35,18 @@ public class UserStorageImpl implements UserStorage {
 
     @Override
     public User getUserByLogin(String login) {
-        for (User user : users) {
+        for (User user : USERS) {
             if (user.getLogin().equals(login))
                 return user;
-        } throw new NoSuchElementException();
+        }
+        throw new NoSuchElementException();
     }
 
     @Override
     public boolean deleteUserById(long id) {
-        for (User user : users) {
+        for (User user : USERS) {
             if (user.getId() == id){
-                users.remove(user);
+                USERS.remove(user);
                 return true;
             }
         }
@@ -47,10 +54,16 @@ public class UserStorageImpl implements UserStorage {
     }
 
     @Override
+    public boolean deleteSubscriber(User user, User subscriber) {
+        subscriber.getSubscriptions().remove(user);
+        return user.getSubscribers().remove(subscriber);
+    }
+
+    @Override
     public boolean deleteUserByLogin(String login) {
-        for (User user : users) {
+        for (User user : USERS) {
             if (user.getLogin().equals(login)){
-                users.remove(user);
+                USERS.remove(user);
                 return true;
             }
         }
@@ -59,9 +72,9 @@ public class UserStorageImpl implements UserStorage {
 
     @Override
     public boolean deleteUserByUser(User user) {
-        for (User user1 : users) {
+        for (User user1 : USERS) {
             if (user1.equals(user)){
-                users.remove(user);
+                USERS.remove(user);
                 return true;
             }
         }
@@ -70,7 +83,7 @@ public class UserStorageImpl implements UserStorage {
 
     @Override
     public boolean updateNameById(long id, String name) {
-        for (User user : users) {
+        for (User user : USERS) {
             if (user.getId() == id){
                 if (user.getName().equals(name)){
                     return false;
@@ -84,7 +97,7 @@ public class UserStorageImpl implements UserStorage {
 
     @Override
     public boolean updatePasswordById(long id, String password) {
-        for (User user : users) {
+        for (User user : USERS) {
             if (user.getId() == id){
                 if (user.getPassword().equals(password)){
                     return false;
@@ -98,13 +111,13 @@ public class UserStorageImpl implements UserStorage {
 
     @Override
     public List<User> getAllUsers() {
-        return users;
+        return USERS;
     }
 
     @Override
     public List<User> getAllUsersByName(String name) {
         ArrayList<User> usersByName = new ArrayList<>();
-        for (User user : users) {
+        for (User user : USERS) {
             if (user.getName().equals(name)){
                 usersByName.add(user);
             }
@@ -114,12 +127,12 @@ public class UserStorageImpl implements UserStorage {
 
     @Override
     public boolean contains(User user) {
-        return users.contains(user);
+        return USERS.contains(user);
     }
 
     @Override
     public boolean contains(long id) {
-        for (User user : users) {
+        for (User user : USERS) {
             if (user.getId() == id){
                 return true;
             }
@@ -129,7 +142,7 @@ public class UserStorageImpl implements UserStorage {
 
     @Override
     public boolean contains(String login) {
-        for (User user : users) {
+        for (User user : USERS) {
             if (user.getLogin().equals(login)){
                 return true;
             }

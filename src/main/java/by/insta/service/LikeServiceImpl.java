@@ -9,7 +9,8 @@ import java.util.List;
 import java.util.NoSuchElementException;
 
 public class LikeServiceImpl implements LikeService {
-    LikeStorage likeStorage;
+
+    private final LikeStorage likeStorage;
 
     public LikeServiceImpl(LikeStorage likeStorage) {
         this.likeStorage = likeStorage;

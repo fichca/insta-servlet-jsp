@@ -16,7 +16,13 @@ import java.util.List;
 
 @WebServlet( urlPatterns = "/likesView", name = "LikesViewServlet")
 public class LikesViewServlet extends HttpServlet {
-    LikeService likeService = new LikeServiceImpl(new LikeStorageImpl());
+
+    private LikeService likeService;
+
+    @Override
+    public void init() throws ServletException {
+        this.likeService = (LikeService) getServletContext().getAttribute("likeService");
+    }
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {

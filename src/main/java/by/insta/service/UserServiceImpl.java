@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.NoSuchElementException;
 
 public class UserServiceImpl implements UserService {
+
     private  final UserStorage userStorage;
 
     public UserServiceImpl(UserStorage userStorage) {
@@ -20,6 +21,17 @@ public class UserServiceImpl implements UserService {
             return false;
         }
         return userStorage.addUser(user);
+    }
+
+    @Override
+    public boolean addSubscriber(User user, User subscriber) {
+        if (userStorage.contains(user)){
+            List<User> subscribe = user.getSubscribers();
+            if (!subscribe.contains(subscriber)){
+                return userStorage.addSubscriber(user, subscriber);
+            }
+        }
+        return false;
     }
 
     @Override
@@ -42,6 +54,17 @@ public class UserServiceImpl implements UserService {
     public boolean deleteUserById(long id) {
         if (userStorage.contains(id)){
             return userStorage.deleteUserById(id);
+        }
+        return false;
+    }
+
+    @Override
+    public boolean deleteSubscriber(User user, User subscriber) {
+        if (userStorage.contains(user)){
+            List<User> subscribe = user.getSubscribers();
+            if (subscribe.contains(subscriber)){
+                return userStorage.deleteSubscriber(user, subscriber);
+            }
         }
         return false;
     }

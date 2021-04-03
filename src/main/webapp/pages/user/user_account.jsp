@@ -26,6 +26,7 @@
             <form action="/userAccount/allPosts">
                 <button type="submit" class="btn btn-primary">View all post ${sessionScope.user.name}</button>
             </form>
+
         </div>
     </div>
 </div>

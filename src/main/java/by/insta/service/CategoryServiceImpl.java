@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.NoSuchElementException;
 
 public class CategoryServiceImpl implements CategoryService {
+
     private final CategoryStorage categoryStorage;
 
     public CategoryServiceImpl(CategoryStorage categoryStorage) {

@@ -1,6 +1,7 @@
 package by.insta.web.servlet.registration;
 
 import by.insta.dao.UserStorageImpl;
+import by.insta.entity.Role;
 import by.insta.entity.User;
 import by.insta.service.UserService;
 import by.insta.service.UserServiceImpl;
@@ -15,8 +16,13 @@ import java.io.IOException;
 
 @WebServlet(urlPatterns = "/registration", name = "RegistrationServlet")
 public class RegistrationServlet extends HttpServlet {
-    private UserService userService = new UserServiceImpl(new UserStorageImpl());
 
+    private UserService userService;
+
+    @Override
+    public void init() throws ServletException {
+        this.userService = (UserService) getServletContext().getAttribute("userService");
+    }
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         req.getServletContext().getRequestDispatcher("/pages/registration/registration.jsp").forward(req, resp);
@@ -36,7 +42,7 @@ public class RegistrationServlet extends HttpServlet {
             req.getServletContext().getRequestDispatcher("/pages/registration/registration.jsp").forward(req, resp);
         }
 
-        User user = new User(name, login, password);
+        User user = new User(name, login, password, Role.USER);
 
         if (!userService.addUser(user)){
             req.setAttribute("isErrors", true);

@@ -8,11 +8,15 @@ public interface UserStorage {
 
     boolean addUser(User user);
 
+    boolean addSubscriber(User user, User subscriber);
+
     User getUserById(long id);
 
     User getUserByLogin(String login);
 
     boolean deleteUserById(long id);
+
+    boolean deleteSubscriber(User user, User subscriber);
 
     boolean deleteUserByLogin(String login);
 

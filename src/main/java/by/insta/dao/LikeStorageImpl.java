@@ -1,31 +1,29 @@
 package by.insta.dao;
 
 import by.insta.Constant;
-import by.insta.entity.Comment;
 import by.insta.entity.Like;
 import by.insta.entity.User;
 
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.NoSuchElementException;
 
 public class LikeStorageImpl implements LikeStorage {
 
-    private static final List<Like> likes = new ArrayList<>();
+    private static final List<Like> LIKES = new ArrayList<>();
 
     @Override
     public boolean addLike(Like like) {
-        int size = likes.size();
+        int size = LIKES.size();
         like.setId(++size);
-        return likes.add(like);
+        return LIKES.add(like);
     }
 
     @Override
     public boolean deleteLikeByUser(User user) {
-        for (Like like : likes) {
+        for (Like like : LIKES) {
             if (like.getUser().equals(user)){
-                likes.remove(like);
+                LIKES.remove(like);
                 return true;
             }
         }
@@ -34,9 +32,9 @@ public class LikeStorageImpl implements LikeStorage {
 
     @Override
     public boolean deleteLikeById(long id) {
-        for (Like like : likes) {
+        for (Like like : LIKES) {
             if (like.getId() == id){
-                likes.remove(like);
+                LIKES.remove(like);
                 return true;
             }
         }
@@ -45,9 +43,9 @@ public class LikeStorageImpl implements LikeStorage {
 
     @Override
     public boolean deleteLikeByPostId(long postId) {
-        for (Like like : likes) {
+        for (Like like : LIKES) {
             if (like.getPostId() == postId){
-                likes.remove(like);
+                LIKES.remove(like);
                 return true;
             }
         }
@@ -57,7 +55,7 @@ public class LikeStorageImpl implements LikeStorage {
 
     @Override
     public Like getLikeById(long id) {
-        for (Like like : likes) {
+        for (Like like : LIKES) {
             if (like.getId() == id){
                 return like;
             }
@@ -67,31 +65,31 @@ public class LikeStorageImpl implements LikeStorage {
 
     @Override
     public List<Like> getLikesPage(int start, long postId) {
-        if (likes.isEmpty()){
-            return likes;
+        if (LIKES.isEmpty()){
+            return LIKES;
         }
         int end = start;
-        for (int i = start; i < likes.size(); i++) {
+        for (int i = start; i < LIKES.size(); i++) {
             if (end == start + Constant.LIKES_ON_PAGE){
                 break;
             }
             end++;
         }
-        return likes.subList(start, end);
+        return LIKES.subList(start, end);
     }
 
     @Override
     public int getCountLikesPage(long postId) {
-        if (likes.isEmpty()){
+        if (LIKES.isEmpty()){
             return 1;
         }
-        return ((likes.size() - 1) / Constant.LIKES_ON_PAGE) + 1;
+        return ((LIKES.size() - 1) / Constant.LIKES_ON_PAGE) + 1;
     }
 
     @Override
     public List<Like> getAllLikesByPostId(long postId) {
         List<Like> likesByPost = new ArrayList<>();
-        for (Like like : likes) {
+        for (Like like : LIKES) {
             if (like.getPostId() == postId){
                 likesByPost.add(like);
             }
@@ -101,17 +99,17 @@ public class LikeStorageImpl implements LikeStorage {
 
     @Override
     public List<Like> getAllLikes() {
-        return likes;
+        return LIKES;
     }
 
     @Override
     public boolean contains(Like like) {
-        return likes.contains(like);
+        return LIKES.contains(like);
     }
 
     @Override
     public boolean contains(long id) {
-        for (Like like : likes) {
+        for (Like like : LIKES) {
             if (like.getId() == id){
                 return true;
             }
@@ -121,7 +119,7 @@ public class LikeStorageImpl implements LikeStorage {
 
     @Override
     public boolean contains(User user) {
-        for (Like like : likes) {
+        for (Like like : LIKES) {
             if (like.getUser().equals(user)){
                 return true;
             }

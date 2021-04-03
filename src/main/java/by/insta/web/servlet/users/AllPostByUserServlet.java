@@ -1,5 +1,6 @@
 package by.insta.web.servlet.users;
 
+import by.insta.dao.LikeStorageImpl;
 import by.insta.dao.PostStorageImpl;
 import by.insta.dao.UserStorageImpl;
 import by.insta.entity.Post;
@@ -19,10 +20,15 @@ import java.util.List;
 
 @WebServlet(urlPatterns = "/userAccount/allPosts", name = "AllPostByUserServlet")
 public class AllPostByUserServlet extends HttpServlet {
-    PostService postService = new PostServiceImpl(new PostStorageImpl());
+    private PostService postService;
 
     @Override
+    public void init() throws ServletException {
+        this.postService = (PostService) getServletContext().getAttribute("postService");
+    }
+    @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+
         User user = (User) req.getSession().getAttribute("user");
 
         List<Post> allByUser = postService.getAllByUser(user);

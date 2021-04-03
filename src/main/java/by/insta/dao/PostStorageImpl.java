@@ -5,27 +5,38 @@ import by.insta.entity.Post;
 import by.insta.Constant;
 import by.insta.entity.User;
 
-import java.net.URL;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.NoSuchElementException;
 
 public class PostStorageImpl implements PostStorage {
 
 
-    private static final List<Post> posts = new ArrayList<>();
+    private static final List<Post> POSTS = new ArrayList<>();
+
 
 
     @Override
     public boolean add(Post post){
-        int size = posts.size();
+        int size = POSTS.size();
         post.setId(++size);
-        return posts.add(post);
+        return POSTS.add(post);
+    }
+
+    @Override
+    public boolean delete(Post post) {
+        return false;
+    }
+
+    @Override
+    public boolean delete(long id) {
+        return false;
     }
 
     @Override
     public Post getById(long id) {
-        for (Post post : posts) {
+        for (Post post : POSTS) {
             if (post.getId() == id){
                 return post;
             }
@@ -34,7 +45,7 @@ public class PostStorageImpl implements PostStorage {
 
     @Override
     public Post getByTitle(String title) {
-        for (Post post : posts) {
+        for (Post post : POSTS) {
             if (post.getTitle().equals(title)){
                 return post;
             }
@@ -43,36 +54,64 @@ public class PostStorageImpl implements PostStorage {
 
     @Override
     public List<Post> getPage(int start){
-        if (posts.isEmpty()){
-            return posts;
+        if (POSTS.isEmpty()){
+            return POSTS;
         }
         int end = start;
-        for (int i = start; i < posts.size(); i++) {
+        for (int i = start; i < POSTS.size(); i++) {
             if (end == start + Constant.PAGES){
                 break;
             }
                 end++;
         }
-        return posts.subList(start, end);
+        return POSTS.subList(start, end);
     }
 
     @Override
     public int getCountPages(){
-        if (posts.isEmpty()){
+        if (POSTS.isEmpty()){
             return 1;
         }
-        return ((posts.size() - 1) / Constant.PAGES) + 1;
+        return ((POSTS.size() - 1) / Constant.PAGES) + 1;
     }
 
     @Override
     public List<Post> getAll(){
-        return posts;
+        return POSTS;
+    }
+
+    @Override
+    public List<Post> getAllApprove() {
+        return getAllApprovePost();
+    }
+
+    private List<Post> getAllApprovePost(){
+        List<Post> postsApprove = new LinkedList<>();
+        for (Post post : PostStorageImpl.POSTS) {
+            if (post.isApproved()){
+                postsApprove.add(post);
+            }
+        }
+        return postsApprove;
+    }
+
+    @Override
+    public List<Post> getAllNotApprove() {
+        List<Post> postsNotApprove = new LinkedList<>();
+        for (Post post : PostStorageImpl.POSTS) {
+            if (!post.isApproved()){
+                postsNotApprove.add(post);
+            }
+        }
+        return postsNotApprove;
     }
 
     @Override
     public List<Post> getAllByUser(User user) {
         ArrayList<Post> postsByUser = new ArrayList<>();
-        for (Post post : posts) {
+        List<Post> allApprove = getAllApprove();
+
+        for (Post post : allApprove) {
             if (post.getUser().equals(user)){
                 postsByUser.add(post);
             }
@@ -83,7 +122,8 @@ public class PostStorageImpl implements PostStorage {
     @Override
     public List<Post> getAllByCategory(Category category) {
         ArrayList<Post> postsByCategory = new ArrayList<>();
-        for (Post post : posts) {
+        List<Post> allApprovePost = getAllApprovePost();
+        for (Post post : allApprovePost) {
             if (post.getCategory().equals(category)){
                 postsByCategory.add(post);
             }
@@ -93,7 +133,7 @@ public class PostStorageImpl implements PostStorage {
 
     @Override
     public boolean contains(String title) {
-        for (Post post : posts) {
+        for (Post post : POSTS) {
             if (post.getTitle().equals(title)){
 
                 return true;
@@ -104,12 +144,12 @@ public class PostStorageImpl implements PostStorage {
 
     @Override
     public boolean contains(Post post) {
-        return posts.contains(post);
+        return POSTS.contains(post);
     }
 
     @Override
     public boolean contains(long id) {
-        for (Post post : posts) {
+        for (Post post : POSTS) {
             if (post.getId() == id){
                 return true;
             }

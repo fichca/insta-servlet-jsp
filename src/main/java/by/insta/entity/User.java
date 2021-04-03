@@ -4,6 +4,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 @Data
@@ -15,11 +17,16 @@ public class User {
     private String name;
     private String login;
     private String password;
+    private Role role;
+    private List<User> subscribers = new ArrayList<>();
+    private List<User> subscriptions = new ArrayList<>();
 
-    public User(String name, String login, String password) {
+
+    public User(String name, String login, String password, Role role) {
         this.name = name;
         this.login = login;
         this.password = password;
+        this.role = role;
     }
 
     @Override
@@ -33,5 +40,15 @@ public class User {
     @Override
     public int hashCode() {
         return Objects.hash(name, login, password);
+    }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                ", name='" + name + '\'' +
+                ", login='" + login + '\'' +
+                ", password='" + password + '\'' +
+                ", role=" + role +
+                '}';
     }
 }

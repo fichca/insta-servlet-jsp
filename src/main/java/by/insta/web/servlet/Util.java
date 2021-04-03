@@ -21,6 +21,7 @@ public class Util {
         return posts.subList(start, end);
     }
 
+
     public static int getCountPages(List<Post> posts){
         if (posts.isEmpty()){
             return 1;

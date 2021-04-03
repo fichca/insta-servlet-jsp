@@ -7,20 +7,20 @@ import java.util.*;
 
 public class CommentStorageImpl implements CommentStorage {
 
-    private final static LinkedList<Comment> comments = new LinkedList<>();
+    private final static LinkedList<Comment> COMMENTS = new LinkedList<>();
 
     @Override
     public boolean add(Comment comment) {
-        int size = comments.size();
+        int size = COMMENTS.size();
         comment.setId(++size);
-        comments.addFirst(comment);
+        COMMENTS.addFirst(comment);
         return true;
     }
 
     @Override
     public Comment getById(int id) {
 
-        for (Comment comment : comments) {
+        for (Comment comment : COMMENTS) {
             if (comment.getId() == id){
                 return comment;
             }
@@ -59,7 +59,7 @@ public class CommentStorageImpl implements CommentStorage {
 
     private List<Comment> getAllByPostId(long postId) {
         ArrayList<Comment> commentsByPost = new ArrayList<>();
-        for (Comment comment : comments) {
+        for (Comment comment : COMMENTS) {
             if (comment.getPostId() == postId){
                 commentsByPost.add(comment);
             }
@@ -70,17 +70,17 @@ public class CommentStorageImpl implements CommentStorage {
 
     @Override
     public List<Comment> getAll() {
-        return comments;
+        return COMMENTS;
     }
 
     @Override
     public boolean contains(Comment comment) {
-        return comments.contains(comment);
+        return COMMENTS.contains(comment);
     }
 
     @Override
     public boolean contains(int id) {
-        for (Comment comment : comments) {
+        for (Comment comment : COMMENTS) {
             if (comment.getId() == id){
                 return true;
             }

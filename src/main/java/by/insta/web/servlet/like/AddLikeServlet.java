@@ -4,8 +4,10 @@ import by.insta.dao.LikeStorage;
 import by.insta.dao.LikeStorageImpl;
 import by.insta.entity.Like;
 import by.insta.entity.User;
+import by.insta.service.DialogService;
 import by.insta.service.LikeService;
 import by.insta.service.LikeServiceImpl;
+import by.insta.service.UserService;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -18,8 +20,12 @@ import java.io.IOException;
 
 public class AddLikeServlet extends HttpServlet {
 
-    LikeService likeService = new LikeServiceImpl(new LikeStorageImpl());
+     private LikeService likeService;
 
+    @Override
+    public void init() throws ServletException {
+        this.likeService = (LikeService) getServletContext().getAttribute("likeService");
+    }
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {

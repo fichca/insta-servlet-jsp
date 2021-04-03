@@ -1,6 +1,7 @@
 package by.insta.web.servlet.post;
 
 import by.insta.dao.CategoryStorageImpl;
+import by.insta.dao.LikeStorageImpl;
 import by.insta.dao.PostStorageImpl;
 import by.insta.entity.Category;
 import by.insta.entity.Post;
@@ -13,6 +14,7 @@ import by.insta.web.servlet.Util;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -25,8 +27,14 @@ import java.util.NoSuchElementException;
 @WebServlet(urlPatterns = "/createPost", name = "CreatePostServlet")
 public class CreatePostServlet extends HttpServlet {
 
-    PostService postService = new PostServiceImpl(new PostStorageImpl());
-    CategoryService categoryService = new CategoryServiceImpl(new CategoryStorageImpl());
+    private PostService postService;
+    private CategoryService categoryService;
+
+    @Override
+    public void init() throws ServletException {
+        this.postService = (PostService) getServletContext().getAttribute("postService");
+        this.categoryService = (CategoryService) getServletContext().getAttribute("categoryService");
+    }
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -38,7 +46,6 @@ public class CreatePostServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-
         req.setAttribute("isErrors", true);
         List<Category> categories = categoryService.getAllCategory();
         req.setAttribute("categories", categories);

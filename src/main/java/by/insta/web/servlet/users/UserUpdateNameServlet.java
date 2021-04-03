@@ -15,7 +15,12 @@ import java.io.IOException;
 @WebServlet(urlPatterns = "/userAccount/updateName", name = "UserUpdateNameServlet")
 public class UserUpdateNameServlet extends HttpServlet {
 
-    UserService userService = new UserServiceImpl(new UserStorageImpl());
+    private UserService userService;
+
+    @Override
+    public void init() throws ServletException {
+        this.userService = (UserService) getServletContext().getAttribute("userService");
+    }
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {

@@ -1,8 +1,9 @@
 package by.insta.web.servlet.post;
 
+import by.insta.dao.LikeStorageImpl;
 import by.insta.dao.PostStorageImpl;
 import by.insta.entity.Post;
-import by.insta.entity.User;
+import by.insta.service.CommentService;
 import by.insta.service.PostService;
 import by.insta.service.PostServiceImpl;
 
@@ -17,13 +18,19 @@ import java.net.URL;
 
 @WebServlet(urlPatterns = "/updatePost")
 public class UpdatePostServlet extends HttpServlet {
-    PostService postStorage = new PostServiceImpl(new PostStorageImpl());
+
+    private PostService postService;
+
+    @Override
+    public void init() throws ServletException {
+        this.postService = (PostService) getServletContext().getAttribute("postService");
+    }
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         req.setAttribute("isErrors", false);
         String id = req.getParameter("postId");
-        Post post = postStorage.getById(Integer.parseInt(id));
+        Post post = postService.getById(Integer.parseInt(id));
         req.setAttribute("post", post);
         req.getServletContext().getRequestDispatcher("/pages/post/update_post.jsp").forward(req, resp);
     }
@@ -36,7 +43,7 @@ public class UpdatePostServlet extends HttpServlet {
         String newDescription = req.getParameter("description");
         String urlString = req.getParameter("URL");
 
-        Post post = postStorage.getById(Integer.parseInt(id));
+        Post post = postService.getById(Integer.parseInt(id));
         req.setAttribute("post", post);
 
         URL newUrl;
