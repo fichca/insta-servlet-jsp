@@ -8,7 +8,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-@WebFilter(servletNames = {"DialogFilter"}, filterName = "DoPostFilter")
+@WebFilter(
+        servletNames = {"ViewDialogServlet", "AddDialogServlet", "AddMessageServlet"},
+        filterName = "DoPostFilter")
 
 public class DoPostFilter extends HttpFilter {
     @Override

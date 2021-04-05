@@ -11,9 +11,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-@WebFilter(servletNames = {"LogOutServlet", "CreatePostServlet", "AddLikeServlet", "AddCommentServlet", "LikesViewServlet", "UserAccountServlet", "UserUpdatePasswordServlet", "UserUpdateNameServlet", "AllPostByUserServlet", "AddUserSubscriberServlet", "DeleteUserSubscriberServlet", "AllPostsFeedBySubscriptions",
-        "DoPostFilter"
-})
+@WebFilter(
+        servletNames = {"LogOutServlet", "CreatePostServlet", "AddLikeServlet", "AddCommentServlet", "LikesViewServlet", "UserAccountServlet", "UserUpdatePasswordServlet", "UserUpdateNameServlet", "AllPostByUserServlet", "AddUserSubscriberServlet", "DeleteUserSubscriberServlet", "AllPostsFeedBySubscriptions",
+                "ViewDialogServlet", "AddDialogServlet", "AddMessageServlet", "ApprovePostServlet"},
+        filterName = "UserSessionFilter")
 public class UserSessionFilter extends HttpFilter {
 
     @Override

@@ -19,7 +19,9 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.Enumeration;
 
-@WebFilter(servletNames = {"ViewDialogServlet", "AddDialogServlet", "AddMessageServlet"}, filterName = "DialogFilter")
+@WebFilter(
+        servletNames = {"ViewDialogServlet", "AddDialogServlet", "AddMessageServlet"},
+        filterName = "DialogFilter")
 public class DialogFilter extends HttpFilter {
 
     private DialogService dialogService;

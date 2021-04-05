@@ -14,7 +14,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-@WebServlet(urlPatterns = "/post/approved")
+@WebServlet(urlPatterns = "/post/approved", name = "ApprovedPostServlet")
 public class ApprovedPostServlet extends HttpServlet {
     private  PostService postService;
 
@@ -23,13 +23,8 @@ public class ApprovedPostServlet extends HttpServlet {
         this.postService = (PostService) getServletContext().getAttribute("postService");
     }
 
-    @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        resp.sendRedirect("/");
-    }
 
     @Override
-
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String postId = req.getParameter("id");
         Post byId = postService.getById(Integer.parseInt(postId));

@@ -30,10 +30,6 @@ public class UserViewServlet extends HttpServlet {
         this.userService = (UserService) getServletContext().getAttribute("userService");
         this.postService = (PostService) getServletContext().getAttribute("postService");
     }
-    @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        resp.sendRedirect("/");
-    }
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {

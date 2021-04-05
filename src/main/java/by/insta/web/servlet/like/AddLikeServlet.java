@@ -28,7 +28,7 @@ public class AddLikeServlet extends HttpServlet {
     }
 
     @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
         String postId = req.getParameter("postId");
         User user = (User) req.getSession().getAttribute("user");
@@ -39,4 +39,17 @@ public class AddLikeServlet extends HttpServlet {
         }
         resp.sendRedirect("/viewPost?id=" + postId);
     }
+
+//    @Override
+//    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+//
+//        String postId = req.getParameter("postId");
+//        User user = (User) req.getSession().getAttribute("user");
+//
+//        boolean addLike = likeService.addLike(new Like(Integer.parseInt(postId), user));
+//        if (!addLike){
+//            likeService.deleteLikeByUser(user);
+//        }
+//        resp.sendRedirect("/viewPost?id=" + postId);
+//    }
 }
