@@ -1,12 +1,11 @@
 package by.insta.web.servlet.dialog;
 
-import by.insta.dao.DialogueStorage;
-import by.insta.dao.DialogueStorageImpl;
-import by.insta.dao.MessageStorageImpl;
-import by.insta.dao.UserStorageImpl;
 import by.insta.entity.Dialogue;
 import by.insta.entity.User;
-import by.insta.service.*;
+import by.insta.service.DialogService;
+import by.insta.service.UserService;
+import by.insta.web.constans.ConstantsNameServlet;
+import by.insta.web.constans.ConstantsURLPatterns;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -15,7 +14,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-@WebServlet(urlPatterns = "/addDialog", name = "AddDialogServlet")
+@WebServlet(urlPatterns = ConstantsURLPatterns.ADD_DIALOG_SERVLET_URL, name = ConstantsNameServlet.ADD_DIALOG_SERVLET_NAME)
 public class AddDialogServlet extends HttpServlet {
 
     private DialogService dialogService;
@@ -38,6 +37,6 @@ public class AddDialogServlet extends HttpServlet {
 
         dialogService.addDialog(new Dialogue(fistUser, secondUser));
 
-        req.getServletContext().getRequestDispatcher("/dialog/view").forward(req, resp);
+        req.getServletContext().getRequestDispatcher(ConstantsURLPatterns.VIEW_DIALOG_SERVLET_URL).forward(req, resp);
     }
 }

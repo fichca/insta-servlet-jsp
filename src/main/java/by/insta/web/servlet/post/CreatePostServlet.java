@@ -1,20 +1,17 @@
 package by.insta.web.servlet.post;
 
-import by.insta.dao.CategoryStorageImpl;
-import by.insta.dao.LikeStorageImpl;
-import by.insta.dao.PostStorageImpl;
 import by.insta.entity.Category;
 import by.insta.entity.Post;
 import by.insta.entity.User;
 import by.insta.service.CategoryService;
-import by.insta.service.CategoryServiceImpl;
 import by.insta.service.PostService;
-import by.insta.service.PostServiceImpl;
+import by.insta.web.constans.ConstantsNameServlet;
+import by.insta.web.constans.ConstantsPathJSP;
+import by.insta.web.constans.ConstantsURLPatterns;
 import by.insta.web.servlet.Util;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -24,7 +21,7 @@ import java.net.URL;
 import java.util.List;
 import java.util.NoSuchElementException;
 
-@WebServlet(urlPatterns = "/createPost", name = "CreatePostServlet")
+@WebServlet(urlPatterns = ConstantsURLPatterns.CREATE_POST_SERVLET_URL, name = ConstantsNameServlet.CREATE_POST_SERVLET_NAME)
 public class CreatePostServlet extends HttpServlet {
 
     private PostService postService;
@@ -41,7 +38,7 @@ public class CreatePostServlet extends HttpServlet {
         req.setAttribute("isErrors", false);
         List<Category> categories = categoryService.getAllCategory();
         req.setAttribute("categories", categories);
-        req.getServletContext().getRequestDispatcher("/pages/post/create_post.jsp").forward(req, resp);
+        req.getServletContext().getRequestDispatcher(ConstantsPathJSP.CREATE_POST_PATH).forward(req, resp);
     }
 
     @Override
@@ -65,14 +62,14 @@ public class CreatePostServlet extends HttpServlet {
         } catch (MalformedURLException e) {
             result = "Invalid URL";
             req.setAttribute("result", result);
-            req.getServletContext().getRequestDispatcher("/pages/post/create_post.jsp").forward(req, resp);
+            req.getServletContext().getRequestDispatcher(ConstantsPathJSP.CREATE_POST_PATH).forward(req, resp);
             return;
         }
 
         result = validate(title, description, categoryName);
         if (!result.isEmpty()){
             req.setAttribute("result", result);
-            req.getServletContext().getRequestDispatcher("/pages/post/create_post.jsp").forward(req, resp);
+            req.getServletContext().getRequestDispatcher(ConstantsPathJSP.CREATE_POST_PATH).forward(req, resp);
             return;
         }
 
@@ -82,7 +79,7 @@ public class CreatePostServlet extends HttpServlet {
         }catch (NoSuchElementException e){
             result = "Invalid category";
             req.setAttribute("result", result);
-            req.getServletContext().getRequestDispatcher("/pages/post/create_post.jsp").forward(req, resp);
+            req.getServletContext().getRequestDispatcher(ConstantsPathJSP.CREATE_POST_PATH).forward(req, resp);
             return;
         }
         Post post = new Post(url, title, description, category, user);
@@ -94,7 +91,7 @@ public class CreatePostServlet extends HttpServlet {
 
 
         req.setAttribute("result", result);
-        req.getServletContext().getRequestDispatcher("/pages/post/create_post.jsp").forward(req, resp);
+        req.getServletContext().getRequestDispatcher(ConstantsPathJSP.CREATE_POST_PATH).forward(req, resp);
     }
 
     private String validate(String title, String description, String category){

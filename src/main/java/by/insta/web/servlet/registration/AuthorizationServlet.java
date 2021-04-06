@@ -1,10 +1,10 @@
 package by.insta.web.servlet.registration;
 
-import by.insta.dao.UserStorageImpl;
 import by.insta.entity.User;
-import by.insta.service.PostService;
 import by.insta.service.UserService;
-import by.insta.service.UserServiceImpl;
+import by.insta.web.constans.ConstantsNameServlet;
+import by.insta.web.constans.ConstantsPathJSP;
+import by.insta.web.constans.ConstantsURLPatterns;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -14,7 +14,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.NoSuchElementException;
 
-@WebServlet(urlPatterns = "/auth", name = "AuthorizationServlet")
+@WebServlet(urlPatterns = ConstantsURLPatterns.AUTHORIZATION_SERVLET_URL, name = ConstantsNameServlet.AUTHORIZATION_SERVLET_NAME)
 public class AuthorizationServlet extends HttpServlet {
 
     private UserService userService;
@@ -25,7 +25,7 @@ public class AuthorizationServlet extends HttpServlet {
     }
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        req.getServletContext().getRequestDispatcher("/pages/registration/authorization.jsp").forward(req, resp);
+        req.getServletContext().getRequestDispatcher(ConstantsPathJSP.AUTHORIZATION_PATH).forward(req, resp);
     }
 
     @Override
@@ -42,17 +42,17 @@ public class AuthorizationServlet extends HttpServlet {
         } catch (NoSuchElementException e) {
             req.setAttribute("isErrors", true);
             req.setAttribute("result", "Invalid login");
-            req.getServletContext().getRequestDispatcher("/pages/registration/authorization.jsp").forward(req, resp);
+            req.getServletContext().getRequestDispatcher(ConstantsPathJSP.AUTHORIZATION_PATH).forward(req, resp);
             return;
         }
 
         if (userByLogin.getPassword().equals(password)) {
             req.getSession().setAttribute("user", userByLogin);
-            resp.sendRedirect("/");
+            resp.sendRedirect(ConstantsURLPatterns.ALL_POSTS_FEED_SERVLET_URL);
         } else {
             req.setAttribute("isErrors", true);
             req.setAttribute("result", "Invalid password");
-            req.getServletContext().getRequestDispatcher("/pages/registration/authorization.jsp").forward(req, resp);
+            req.getServletContext().getRequestDispatcher(ConstantsPathJSP.AUTHORIZATION_PATH).forward(req, resp);
         }
     }
 }

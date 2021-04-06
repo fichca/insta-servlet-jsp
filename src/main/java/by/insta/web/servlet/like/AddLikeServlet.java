@@ -1,13 +1,10 @@
 package by.insta.web.servlet.like;
 
-import by.insta.dao.LikeStorage;
-import by.insta.dao.LikeStorageImpl;
 import by.insta.entity.Like;
 import by.insta.entity.User;
-import by.insta.service.DialogService;
 import by.insta.service.LikeService;
-import by.insta.service.LikeServiceImpl;
-import by.insta.service.UserService;
+import by.insta.web.constans.ConstantsNameServlet;
+import by.insta.web.constans.ConstantsURLPatterns;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -16,7 +13,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-@WebServlet(urlPatterns = "/addLike", name = "AddLikeServlet")
+@WebServlet(urlPatterns = ConstantsURLPatterns.ADD_LIKE_SERVLET_URL, name = ConstantsNameServlet.ADD_LIKE_SERVLET_NAME)
 
 public class AddLikeServlet extends HttpServlet {
 
@@ -37,19 +34,6 @@ public class AddLikeServlet extends HttpServlet {
         if (!addLike){
             likeService.deleteLikeByUser(user);
         }
-        resp.sendRedirect("/viewPost?id=" + postId);
+        resp.sendRedirect(ConstantsURLPatterns.POST_VIEW_SERVLET_URL + "?id=" + postId);
     }
-
-//    @Override
-//    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-//
-//        String postId = req.getParameter("postId");
-//        User user = (User) req.getSession().getAttribute("user");
-//
-//        boolean addLike = likeService.addLike(new Like(Integer.parseInt(postId), user));
-//        if (!addLike){
-//            likeService.deleteLikeByUser(user);
-//        }
-//        resp.sendRedirect("/viewPost?id=" + postId);
-//    }
 }

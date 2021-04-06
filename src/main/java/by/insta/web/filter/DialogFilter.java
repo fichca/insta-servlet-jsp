@@ -1,27 +1,23 @@
 package by.insta.web.filter;
 
-import by.insta.dao.DialogueStorageImpl;
-import by.insta.dao.MessageStorageImpl;
-import by.insta.dao.UserStorageImpl;
 import by.insta.entity.User;
 import by.insta.service.DialogService;
-import by.insta.service.DialogServiceImpl;
 import by.insta.service.UserService;
-import by.insta.service.UserServiceImpl;
+import by.insta.web.constans.ConstantsURLPatterns;
 
 import javax.servlet.FilterChain;
-import javax.servlet.FilterConfig;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpFilter;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.Enumeration;
+
+import static by.insta.web.constans.ConstantsNameServlet.*;
+
 
 @WebFilter(
-        servletNames = {"ViewDialogServlet", "AddDialogServlet", "AddMessageServlet"},
-        filterName = "DialogFilter")
+        servletNames = {VIEW_DIALOG_SERVLET_NAME, ADD_DIALOG_SERVLET_NAME, ADD_MESSAGE_SERVLET_NAME}, filterName = DIALOG_FILTER_NAME)
 public class DialogFilter extends HttpFilter {
 
     private DialogService dialogService;
@@ -38,7 +34,7 @@ public class DialogFilter extends HttpFilter {
         User secondUser = userService.getUserByLogin(loginBySecondUser);
 
         if (!dialogService.contains(fistUser, secondUser)) {
-            req.getServletContext().getRequestDispatcher("/addDialog").forward(req, res);
+            req.getServletContext().getRequestDispatcher(ConstantsURLPatterns.ADD_DIALOG_SERVLET_URL).forward(req, res);
         } else {
             chain.doFilter(req, res);
         }

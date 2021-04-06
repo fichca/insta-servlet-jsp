@@ -1,10 +1,11 @@
 package by.insta.web.servlet.registration;
 
-import by.insta.dao.UserStorageImpl;
 import by.insta.entity.Role;
 import by.insta.entity.User;
 import by.insta.service.UserService;
-import by.insta.service.UserServiceImpl;
+import by.insta.web.constans.ConstantsNameServlet;
+import by.insta.web.constans.ConstantsPathJSP;
+import by.insta.web.constans.ConstantsURLPatterns;
 import by.insta.web.servlet.Util;
 
 import javax.servlet.ServletException;
@@ -14,7 +15,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-@WebServlet(urlPatterns = "/registration", name = "RegistrationServlet")
+@WebServlet(urlPatterns = ConstantsURLPatterns.REGISTRATION_SERVLET_URL, name = ConstantsNameServlet.REGISTRATION_SERVLET_NAME)
 public class RegistrationServlet extends HttpServlet {
 
     private UserService userService;
@@ -25,7 +26,7 @@ public class RegistrationServlet extends HttpServlet {
     }
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        req.getServletContext().getRequestDispatcher("/pages/registration/registration.jsp").forward(req, resp);
+        req.getServletContext().getRequestDispatcher(ConstantsPathJSP.REGISTRATION_PATH).forward(req, resp);
     }
 
     @Override
@@ -39,7 +40,7 @@ public class RegistrationServlet extends HttpServlet {
 
         if (!result.isEmpty()){
             req.setAttribute("result", result);
-            req.getServletContext().getRequestDispatcher("/pages/registration/registration.jsp").forward(req, resp);
+            req.getServletContext().getRequestDispatcher(ConstantsPathJSP.REGISTRATION_PATH).forward(req, resp);
         }
 
         User user = new User(name, login, password, Role.USER);
@@ -48,9 +49,9 @@ public class RegistrationServlet extends HttpServlet {
             req.setAttribute("isErrors", true);
             result = "Login already use!";
             req.setAttribute("result", result);
-            req.getServletContext().getRequestDispatcher("/pages/registration/registration.jsp").forward(req, resp);
+            req.getServletContext().getRequestDispatcher(ConstantsPathJSP.REGISTRATION_PATH).forward(req, resp);
         }else {
-            resp.sendRedirect("/auth");
+            resp.sendRedirect(ConstantsURLPatterns.AUTHORIZATION_SERVLET_URL);
         }
     }
 

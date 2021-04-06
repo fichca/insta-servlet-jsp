@@ -4,6 +4,8 @@ import by.insta.dao.UserStorageImpl;
 import by.insta.entity.User;
 import by.insta.service.UserService;
 import by.insta.service.UserServiceImpl;
+import by.insta.web.constans.ConstantsNameServlet;
+import by.insta.web.constans.ConstantsURLPatterns;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -13,7 +15,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.List;
 
-@WebServlet(urlPatterns = "/user/addSubscriber", name = "AddUserSubscriberServlet")
+@WebServlet(urlPatterns = ConstantsURLPatterns.ADD_USER_SUBSCRIBER_SERVLET_URL, name = ConstantsNameServlet.ADD_USER_SUBSCRIBER_SERVLET_NAME)
 public class AddUserSubscriberServlet extends HttpServlet {
 
     private UserService userService;
@@ -32,6 +34,6 @@ public class AddUserSubscriberServlet extends HttpServlet {
         User subscriber = (User) req.getSession().getAttribute("user");
         userService.addSubscriber(userToSubscribe, subscriber);
 
-        req.getServletContext().getRequestDispatcher("/userView").forward(req, resp);
+        req.getServletContext().getRequestDispatcher(ConstantsURLPatterns.USER_VIEW_SERVLET_URL).forward(req, resp);
     }
 }

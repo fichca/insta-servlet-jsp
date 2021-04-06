@@ -1,11 +1,9 @@
 package by.insta.web.servlet.moderator;
 
-import by.insta.dao.LikeStorageImpl;
-import by.insta.dao.PostStorageImpl;
 import by.insta.entity.Post;
-import by.insta.service.LikeService;
 import by.insta.service.PostService;
-import by.insta.service.PostServiceImpl;
+import by.insta.web.constans.ConstantsNameServlet;
+import by.insta.web.constans.ConstantsURLPatterns;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -14,8 +12,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-@WebServlet(urlPatterns = "/post/approved", name = "ApprovedPostServlet")
-public class ApprovedPostServlet extends HttpServlet {
+@WebServlet(urlPatterns = ConstantsURLPatterns.APPROVED_POSTS_SERVLET_URL, name = ConstantsNameServlet.APPROVED_POSTS_SERVLET_NAME)
+public class ApprovedPostsServlet extends HttpServlet {
     private  PostService postService;
 
     @Override
@@ -29,6 +27,6 @@ public class ApprovedPostServlet extends HttpServlet {
         String postId = req.getParameter("id");
         Post byId = postService.getById(Integer.parseInt(postId));
         byId.setApproved(true);
-        resp.sendRedirect("/post/view/notApproved");
+        resp.sendRedirect(ConstantsURLPatterns.VIEW_NOT_APPROVED_POSTS_SERVLET_URL);
     }
 }

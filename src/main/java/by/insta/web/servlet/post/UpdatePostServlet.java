@@ -1,11 +1,10 @@
 package by.insta.web.servlet.post;
 
-import by.insta.dao.LikeStorageImpl;
-import by.insta.dao.PostStorageImpl;
 import by.insta.entity.Post;
-import by.insta.service.CommentService;
 import by.insta.service.PostService;
-import by.insta.service.PostServiceImpl;
+import by.insta.web.constans.ConstantsNameServlet;
+import by.insta.web.constans.ConstantsPathJSP;
+import by.insta.web.constans.ConstantsURLPatterns;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -16,7 +15,7 @@ import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
 
-@WebServlet(urlPatterns = "/updatePost")
+@WebServlet(urlPatterns = ConstantsURLPatterns.UPDATE_POST_SERVLET_URL, name = ConstantsNameServlet.UPDATE_POST_SERVLET_NAME)
 public class UpdatePostServlet extends HttpServlet {
 
     private PostService postService;
@@ -32,7 +31,7 @@ public class UpdatePostServlet extends HttpServlet {
         String id = req.getParameter("postId");
         Post post = postService.getById(Integer.parseInt(id));
         req.setAttribute("post", post);
-        req.getServletContext().getRequestDispatcher("/pages/post/update_post.jsp").forward(req, resp);
+        req.getServletContext().getRequestDispatcher(ConstantsPathJSP.UPDATE_POST_PATH).forward(req, resp);
     }
 
     @Override
@@ -52,7 +51,7 @@ public class UpdatePostServlet extends HttpServlet {
             newUrl = new URL(urlString);
         } catch (MalformedURLException e) {
             req.setAttribute("result", "Invalid URL");
-            req.getServletContext().getRequestDispatcher("/pages/post/update_post.jsp").forward(req, resp);
+            req.getServletContext().getRequestDispatcher(ConstantsPathJSP.UPDATE_POST_PATH).forward(req, resp);
             return;
         }
 
@@ -60,6 +59,6 @@ public class UpdatePostServlet extends HttpServlet {
         post.setDescription(newDescription);
 
         req.setAttribute("result", "Deal!");
-        req.getServletContext().getRequestDispatcher("/pages/post/update_post.jsp").forward(req, resp);
+        req.getServletContext().getRequestDispatcher(ConstantsPathJSP.UPDATE_POST_PATH).forward(req, resp);
     }
 }

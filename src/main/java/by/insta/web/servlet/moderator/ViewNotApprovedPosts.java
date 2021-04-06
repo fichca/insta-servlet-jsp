@@ -1,11 +1,10 @@
 package by.insta.web.servlet.moderator;
 
-import by.insta.dao.LikeStorageImpl;
-import by.insta.dao.PostStorageImpl;
 import by.insta.entity.Post;
-import by.insta.entity.User;
 import by.insta.service.PostService;
-import by.insta.service.PostServiceImpl;
+import by.insta.web.constans.ConstantsNameServlet;
+import by.insta.web.constans.ConstantsPathJSP;
+import by.insta.web.constans.ConstantsURLPatterns;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -15,7 +14,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.List;
 
-@WebServlet( urlPatterns = "/post/view/notApproved", name = "ApprovePostServlet")
+@WebServlet( urlPatterns = ConstantsURLPatterns.VIEW_NOT_APPROVED_POSTS_SERVLET_URL, name = ConstantsNameServlet.VIEW_NOT_APPROVED_POSTS_SERVLET_NAME)
 public class ViewNotApprovedPosts extends HttpServlet {
 
     private  PostService postService;
@@ -30,6 +29,6 @@ public class ViewNotApprovedPosts extends HttpServlet {
         List<Post> allNotApproved = postService.getAllNotApprove();
 
         req.setAttribute("posts", allNotApproved);
-        req.getServletContext().getRequestDispatcher("/pages/moderator/all_not_approved_posts.jsp").forward(req, resp);
+        req.getServletContext().getRequestDispatcher(ConstantsPathJSP.ALL_NOT_APPROVED_PATH).forward(req, resp);
     }
 }

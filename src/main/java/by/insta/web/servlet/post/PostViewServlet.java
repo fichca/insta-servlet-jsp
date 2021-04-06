@@ -1,14 +1,13 @@
 package by.insta.web.servlet.post;
 
 import by.insta.Constant;
-import by.insta.dao.CommentStorageImpl;
-import by.insta.dao.LikeStorageImpl;
-import by.insta.dao.PostStorageImpl;
 import by.insta.entity.Comment;
-import by.insta.entity.Like;
 import by.insta.entity.Post;
 import by.insta.entity.User;
 import by.insta.service.*;
+import by.insta.web.constans.ConstantsNameServlet;
+import by.insta.web.constans.ConstantsPathJSP;
+import by.insta.web.constans.ConstantsURLPatterns;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -16,14 +15,10 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.time.LocalDate;
-import java.time.LocalTime;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 
 
-@WebServlet(urlPatterns = "/viewPost")
+@WebServlet(urlPatterns = ConstantsURLPatterns.POST_VIEW_SERVLET_URL, name = ConstantsNameServlet.POST_VIEW_SERVLET_NAME)
 public class PostViewServlet extends HttpServlet {
 
     private PostService postService;
@@ -35,6 +30,7 @@ public class PostViewServlet extends HttpServlet {
         this.commentService = (CommentService) getServletContext().getAttribute("commentService");
     }
 
+
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
@@ -43,7 +39,7 @@ public class PostViewServlet extends HttpServlet {
         Post post = postService.getById(postId);
 
         if (!post.isApproved()){
-            resp.sendRedirect("/");
+            resp.sendRedirect(ConstantsURLPatterns.ALL_POSTS_FEED_SERVLET_URL);
         }
 
         String commentPageString = req.getParameter("commentPage");
@@ -61,7 +57,7 @@ public class PostViewServlet extends HttpServlet {
 
         setPostInAttribute(req, commentsPage, post);
 
-        req.getServletContext().getRequestDispatcher("/pages/post/post_view.jsp").forward(req, resp);
+        req.getServletContext().getRequestDispatcher(ConstantsPathJSP.POST_VIEW_PATH).forward(req, resp);
     }
 
     private void setPostInAttribute(HttpServletRequest req, List<Comment> commentsPage, Post post){

@@ -1,11 +1,10 @@
 package by.insta.web.servlet.comment;
 
-import by.insta.dao.CommentStorageImpl;
 import by.insta.entity.Comment;
 import by.insta.entity.User;
 import by.insta.service.CommentService;
-import by.insta.service.CommentServiceImpl;
-import by.insta.service.DialogService;
+import by.insta.web.constans.ConstantsNameServlet;
+import by.insta.web.constans.ConstantsURLPatterns;
 import by.insta.web.servlet.Util;
 
 import javax.servlet.ServletException;
@@ -15,7 +14,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-@WebServlet(urlPatterns = "/addComment", name = "AddCommentServlet")
+@WebServlet(urlPatterns = ConstantsURLPatterns.ADD_COMMENT_SERVLET_URL, name = ConstantsNameServlet.ADD_COMMENT_SERVLET_NAME)
+
 public class AddCommentServlet extends HttpServlet {
 
     private CommentService commentService;
@@ -31,13 +31,13 @@ public class AddCommentServlet extends HttpServlet {
         String postId = req.getParameter("postId");
         String comment = req.getParameter("comment");
         if (Util.isEmpty(comment)){
-            resp.sendRedirect("/viewPost?id=" + postId);
+            resp.sendRedirect(ConstantsURLPatterns.POST_VIEW_SERVLET_URL + "?id=" + postId);
             return;
         }
         User user = (User) req.getSession().getAttribute("user");
 
         commentService.add(new Comment(Integer.parseInt(postId), comment, user));
 
-        resp.sendRedirect("/viewPost?id=" + postId);
+        resp.sendRedirect(ConstantsURLPatterns.POST_VIEW_SERVLET_URL + "?id=" + postId);
     }
 }

@@ -1,5 +1,8 @@
 package by.insta.web.filter;
 
+import by.insta.web.constans.ConstantsNameServlet;
+import by.insta.web.constans.ConstantsURLPatterns;
+
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebFilter;
@@ -9,8 +12,8 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 @WebFilter(
-        servletNames = {"RegistrationServlet", "AuthorizationServlet"},
-        filterName = "RegistrationFilter")
+        servletNames = {ConstantsNameServlet.REGISTRATION_SERVLET_NAME, ConstantsNameServlet.AUTHORIZATION_SERVLET_NAME},
+        filterName = ConstantsNameServlet.REGISTRATION_FILTER_NAME)
 public class RegistrationFilter extends HttpFilter {
 
     @Override
@@ -22,7 +25,7 @@ public class RegistrationFilter extends HttpFilter {
             chain.doFilter(req, res);
 
         } else {
-            res.sendRedirect("/");
+            res.sendRedirect(ConstantsURLPatterns.ALL_POSTS_FEED_SERVLET_URL);
         }
     }
 }

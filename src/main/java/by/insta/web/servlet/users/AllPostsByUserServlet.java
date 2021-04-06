@@ -1,14 +1,11 @@
 package by.insta.web.servlet.users;
 
-import by.insta.dao.LikeStorageImpl;
-import by.insta.dao.PostStorageImpl;
-import by.insta.dao.UserStorageImpl;
 import by.insta.entity.Post;
 import by.insta.entity.User;
 import by.insta.service.PostService;
-import by.insta.service.PostServiceImpl;
-import by.insta.service.UserService;
-import by.insta.service.UserServiceImpl;
+import by.insta.web.constans.ConstantsNameServlet;
+import by.insta.web.constans.ConstantsPathJSP;
+import by.insta.web.constans.ConstantsURLPatterns;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -18,8 +15,8 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.List;
 
-@WebServlet(urlPatterns = "/userAccount/allPosts", name = "AllPostByUserServlet")
-public class AllPostByUserServlet extends HttpServlet {
+@WebServlet(urlPatterns = ConstantsURLPatterns.ALL_POSTS_BY_USER_SERVLET_URL, name = ConstantsNameServlet.ALL_POSTS_BY_USER_SERVLET_NAME)
+public class AllPostsByUserServlet extends HttpServlet {
     private PostService postService;
 
     @Override
@@ -35,6 +32,6 @@ public class AllPostByUserServlet extends HttpServlet {
 
         req.setAttribute("posts", allByUser);
 
-        req.getServletContext().getRequestDispatcher("/pages/user/all_posts_user.jsp").forward(req, resp);
+        req.getServletContext().getRequestDispatcher(ConstantsPathJSP.ALL_POSTS_USER_PATH).forward(req, resp);
     }
 }

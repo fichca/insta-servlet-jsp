@@ -1,15 +1,13 @@
 package by.insta.web.servlet.post;
 
 import by.insta.Constant;
-import by.insta.dao.CategoryStorageImpl;
-import by.insta.dao.LikeStorageImpl;
-import by.insta.dao.PostStorageImpl;
 import by.insta.entity.Category;
 import by.insta.entity.Post;
 import by.insta.service.CategoryService;
-import by.insta.service.CategoryServiceImpl;
 import by.insta.service.PostService;
-import by.insta.service.PostServiceImpl;
+import by.insta.web.constans.ConstantsNameServlet;
+import by.insta.web.constans.ConstantsPathJSP;
+import by.insta.web.constans.ConstantsURLPatterns;
 import by.insta.web.servlet.Util;
 
 import javax.servlet.ServletException;
@@ -20,7 +18,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.List;
 
-@WebServlet(urlPatterns = "/posts/byCategory")
+@WebServlet(urlPatterns = ConstantsURLPatterns.ALL_POSTS_FEED_BY_CATEGORY_SERVLET_URL, name = ConstantsNameServlet.ALL_POSTS_FEED_BY_CATEGORY_SERVLET_NAME)
 public class AllPostsFeedByCategory extends HttpServlet {
 
     private PostService postService;
@@ -60,7 +58,7 @@ public class AllPostsFeedByCategory extends HttpServlet {
         req.setAttribute("numberPage", numberPage);
         req.setAttribute("countPages", countPages);
         req.setAttribute("posts", postList);
-        req.getServletContext().getRequestDispatcher("/pages/post/posts_feed_by_category.jsp").forward(req, resp);
+        req.getServletContext().getRequestDispatcher(ConstantsPathJSP.POSTS_FEED_BY_CATEGORY_PATH).forward(req, resp);
 
     }
 }

@@ -1,9 +1,9 @@
 package by.insta.web.servlet.users;
 
-import by.insta.dao.UserStorageImpl;
 import by.insta.entity.User;
 import by.insta.service.UserService;
-import by.insta.service.UserServiceImpl;
+import by.insta.web.constans.ConstantsNameServlet;
+import by.insta.web.constans.ConstantsURLPatterns;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -12,7 +12,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-@WebServlet(urlPatterns = "/user/deleteSubscriber", name = "DeleteUserSubscriberServlet")
+@WebServlet(urlPatterns = ConstantsURLPatterns.DELETE_USER_SUBSCRIBER_SERVLET_URL, name = ConstantsNameServlet.DELETE_USER_SUBSCRIBER_SERVLET_NAME)
 public class DeleteUserSubscriberServlet extends HttpServlet {
 
     private UserService userService;
@@ -31,6 +31,6 @@ public class DeleteUserSubscriberServlet extends HttpServlet {
 
         userService.deleteSubscriber(userToSubscribe, subscriber);
 
-        req.getServletContext().getRequestDispatcher("/userView").forward(req, resp);
+        req.getServletContext().getRequestDispatcher(ConstantsURLPatterns.USER_VIEW_SERVLET_URL).forward(req, resp);
     }
 }
