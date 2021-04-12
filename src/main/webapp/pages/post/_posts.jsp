@@ -44,7 +44,7 @@
                             <c:if test="${requestScope.category != null}">
                                 <li class="nav-item">
                                     <a class="nav-link disabled" href="#" tabindex="-1"
-                                       aria-disabled="true">Category: ${requestScope.category.name}</a>
+                                       aria-disabled="true">Category: ${requestScope.category}</a>
                                 </li>
                             </c:if>
 
@@ -60,18 +60,18 @@
         <div class="col-6">
 
             <div class="card">
+                <div class="card-header">
+                    <a href="/userView?id=${post.user.id}" class="badge rounded-pill bg-dark" role="button"
+                       aria-disabled="true"><h4><span
+                            class="badge rounded-pill bg-dark">${post.user.name}</span></h4></a>
+                </div>
                 <div class="card-body">
-                    <form action="/userView" method="post">
-                        <input type="hidden" value="${post.user.login}" name="login">
-                        <button type="submit" class="badge rounded-pill bg-dark"><h4><span
-                                class="badge rounded-pill bg-dark">${post.user.name}</span></h4></button>
-                    </form>
-
 
                     <img class="card-img-top" src="${post.url}" alt="${post.url}">
                     <h5 class="card-title">${post.title}</h5>
                     <p class="card-text">${post.description}</p>
-
+                </div>
+                <div class="card-footer text-muted">
                     <div class="row justify-content-between">
                         <div class="col-1">
                             <a href="/viewPost?id=${post.id}" class="btn btn-outline-secondary">
@@ -83,6 +83,8 @@
                                 </svg>
                             </a>
                         </div>
+
+
                         <div class="col-4">
                             <h6>Category <a class="badge rounded-pill bg-dark"
                                             href="/posts/byCategory?category=${post.category.name}"

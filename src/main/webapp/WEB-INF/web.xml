@@ -35,7 +35,6 @@
         <servlet-name>ApprovedPostServlet</servlet-name>
         <servlet-name>AddUserSubscriberServlet</servlet-name>
         <servlet-name>DeleteUserSubscriberServlet</servlet-name>
-        <servlet-name>UserViewServlet</servlet-name>
     </filter-mapping>
 
 <!--    <filter-mapping>-->

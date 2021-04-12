@@ -3,6 +3,7 @@ package by.insta.web.servlet.moderator;
 import by.insta.entity.Post;
 import by.insta.service.PostService;
 import by.insta.web.constans.ConstantsNameServlet;
+import by.insta.web.constans.ConstantsServiceName;
 import by.insta.web.constans.ConstantsURLPatterns;
 
 import javax.servlet.ServletException;
@@ -18,7 +19,7 @@ public class ApprovedPostsServlet extends HttpServlet {
 
     @Override
     public void init() throws ServletException {
-        this.postService = (PostService) getServletContext().getAttribute("postService");
+        this.postService = (PostService) getServletContext().getAttribute(ConstantsServiceName.POST_SERVICE);
     }
 
 

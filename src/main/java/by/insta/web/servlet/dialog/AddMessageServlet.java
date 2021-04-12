@@ -4,7 +4,9 @@ import by.insta.entity.Message;
 import by.insta.entity.User;
 import by.insta.service.MessageService;
 import by.insta.web.constans.ConstantsNameServlet;
+import by.insta.web.constans.ConstantsServiceName;
 import by.insta.web.constans.ConstantsURLPatterns;
+import by.insta.web.servlet.Util;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -16,11 +18,12 @@ import java.io.IOException;
 @WebServlet(urlPatterns = ConstantsURLPatterns.ADD_MESSAGE_SERVLET_URL, name = ConstantsNameServlet.ADD_MESSAGE_SERVLET_NAME)
 
 public class AddMessageServlet extends HttpServlet {
+
     private  MessageService messageService;
 
     @Override
     public void init() throws ServletException {
-        this.messageService = (MessageService) getServletContext().getAttribute("messageService");
+        this.messageService = (MessageService) getServletContext().getAttribute(ConstantsServiceName.MASSAGE_SERVICE);
     }
 
     @Override
@@ -30,6 +33,10 @@ public class AddMessageServlet extends HttpServlet {
         String dialogId = req.getParameter("dialogId");
         String text = req.getParameter("message");
 
+        if (Util.isEmpty(text)){
+            req.getServletContext().getRequestDispatcher(ConstantsURLPatterns.VIEW_DIALOG_SERVLET_URL).forward(req, resp);
+            return;
+        }
         messageService.addMessage(new Message(Integer.parseInt(dialogId), user, text));
 
         req.getServletContext().getRequestDispatcher(ConstantsURLPatterns.VIEW_DIALOG_SERVLET_URL).forward(req, resp);

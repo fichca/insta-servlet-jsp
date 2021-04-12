@@ -10,6 +10,7 @@
 
     <div class="row justify-content-center">
         <div class="col-6">
+
             <form action="/auth" method="post">
 
                 <div class="mb-3">
@@ -24,7 +25,7 @@
                            maxlength="15" required>
                 </div>
 
-                <button type="submit" class="btn btn-primary">Authorization</button>
+                <button type="submit" class="btn btn-dark">Authorization</button>
             </form>
             <%
                 if ((boolean) request.getAttribute("isErrors")) {

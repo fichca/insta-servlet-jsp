@@ -7,6 +7,7 @@ import by.insta.service.CategoryService;
 import by.insta.service.PostService;
 import by.insta.web.constans.ConstantsNameServlet;
 import by.insta.web.constans.ConstantsPathJSP;
+import by.insta.web.constans.ConstantsServiceName;
 import by.insta.web.constans.ConstantsURLPatterns;
 import by.insta.web.servlet.Util;
 
@@ -26,8 +27,8 @@ public class AllPostsFeedByCategory extends HttpServlet {
 
     @Override
     public void init() throws ServletException {
-        this.postService = (PostService) getServletContext().getAttribute("postService");
-        this.categoryService = (CategoryService) getServletContext().getAttribute("categoryService");
+        this.postService = (PostService) getServletContext().getAttribute(ConstantsServiceName.POST_SERVICE);
+        this.categoryService = (CategoryService) getServletContext().getAttribute(ConstantsServiceName.CATEGORY_SERVICE);
     }
 
     @Override
@@ -43,9 +44,10 @@ public class AllPostsFeedByCategory extends HttpServlet {
             page = "1";
         }
 
-        Category category = new Category(categoryString);
-        List<Post> posts = postService.getAllByCategory(category);
-        req.setAttribute("category", category);
+
+        List<Post> posts = postService.getAllByCategory(categoryString);
+
+        req.setAttribute("category", categoryString);
 
 
         int numberPage = Integer.parseInt(page);

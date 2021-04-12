@@ -1,12 +1,13 @@
-package by.insta.dao;
+package by.insta.stotage.inmemory;
 
+import by.insta.stotage.UserStorage;
 import by.insta.entity.User;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
 
-public class UserStorageImpl implements UserStorage {
+public class UserStorageInMemoryImpl implements UserStorage {
 
 
     private static final List<User> USERS = new ArrayList<>();
@@ -18,11 +19,6 @@ public class UserStorageImpl implements UserStorage {
         return USERS.add(user);
     }
 
-    @Override
-    public boolean addSubscriber(User user, User subscriber) {
-        subscriber.getSubscriptions().add(user);
-       return user.getSubscribers().add(subscriber);
-    }
 
     @Override
     public User getUserById(long id) {
@@ -53,11 +49,6 @@ public class UserStorageImpl implements UserStorage {
         return false;
     }
 
-    @Override
-    public boolean deleteSubscriber(User user, User subscriber) {
-        subscriber.getSubscriptions().remove(user);
-        return user.getSubscribers().remove(subscriber);
-    }
 
     @Override
     public boolean deleteUserByLogin(String login) {

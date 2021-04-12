@@ -1,5 +1,6 @@
-package by.insta.dao;
+package by.insta.stotage.inmemory;
 
+import by.insta.stotage.PostStorage;
 import by.insta.entity.Category;
 import by.insta.entity.Post;
 import by.insta.Constant;
@@ -10,10 +11,10 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.NoSuchElementException;
 
-public class PostStorageImpl implements PostStorage {
+public class PostStorageInMemoryImpl implements PostStorage {
 
 
-    private static final List<Post> POSTS = new ArrayList<>();
+    private static final LinkedList<Post> POSTS = new LinkedList<>();
 
 
 
@@ -21,7 +22,8 @@ public class PostStorageImpl implements PostStorage {
     public boolean add(Post post){
         int size = POSTS.size();
         post.setId(++size);
-        return POSTS.add(post);
+        POSTS.addFirst(post);
+        return true;
     }
 
     @Override
@@ -87,7 +89,7 @@ public class PostStorageImpl implements PostStorage {
 
     private List<Post> getAllApprovePost(){
         List<Post> postsApprove = new LinkedList<>();
-        for (Post post : PostStorageImpl.POSTS) {
+        for (Post post : PostStorageInMemoryImpl.POSTS) {
             if (post.isApproved()){
                 postsApprove.add(post);
             }
@@ -98,7 +100,7 @@ public class PostStorageImpl implements PostStorage {
     @Override
     public List<Post> getAllNotApprove() {
         List<Post> postsNotApprove = new LinkedList<>();
-        for (Post post : PostStorageImpl.POSTS) {
+        for (Post post : PostStorageInMemoryImpl.POSTS) {
             if (!post.isApproved()){
                 postsNotApprove.add(post);
             }

@@ -1,8 +1,7 @@
 package by.insta.service;
 
-import by.insta.dao.CategoryStorage;
+import by.insta.stotage.CategoryStorage;
 import by.insta.entity.Category;
-import by.insta.entity.Post;
 
 import java.util.List;
 import java.util.NoSuchElementException;

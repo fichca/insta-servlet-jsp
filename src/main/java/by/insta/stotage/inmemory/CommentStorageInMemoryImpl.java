@@ -1,11 +1,12 @@
-package by.insta.dao;
+package by.insta.stotage.inmemory;
 
 import by.insta.Constant;
+import by.insta.stotage.CommentStorage;
 import by.insta.entity.Comment;
 
 import java.util.*;
 
-public class CommentStorageImpl implements CommentStorage {
+public class CommentStorageInMemoryImpl implements CommentStorage {
 
     private final static LinkedList<Comment> COMMENTS = new LinkedList<>();
 

@@ -1,14 +1,15 @@
-package by.insta.dao;
+package by.insta.stotage;
 
 import by.insta.entity.User;
 
+import java.sql.SQLException;
 import java.util.List;
 
 public interface UserStorage {
 
     boolean addUser(User user);
 
-    boolean addSubscriber(User user, User subscriber);
+//    boolean addSubscriber(User user, User subscriber);
 
     User getUserById(long id);
 
@@ -16,7 +17,7 @@ public interface UserStorage {
 
     boolean deleteUserById(long id);
 
-    boolean deleteSubscriber(User user, User subscriber);
+//    boolean deleteSubscriber(User user, User subscriber);
 
     boolean deleteUserByLogin(String login);
 

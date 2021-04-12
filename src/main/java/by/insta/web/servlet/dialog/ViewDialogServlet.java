@@ -6,6 +6,7 @@ import by.insta.entity.User;
 import by.insta.service.*;
 import by.insta.web.constans.ConstantsNameServlet;
 import by.insta.web.constans.ConstantsPathJSP;
+import by.insta.web.constans.ConstantsServiceName;
 import by.insta.web.constans.ConstantsURLPatterns;
 
 import javax.servlet.ServletException;
@@ -19,23 +20,20 @@ import java.io.IOException;
 
 public class ViewDialogServlet extends HttpServlet {
     private DialogService dialogService;
-    private UserService userService;
 
     @Override
     public void init() throws ServletException {
-        this.dialogService = (DialogService) getServletContext().getAttribute("dialogService");
-        this.userService = (UserService) getServletContext().getAttribute("userService");
+        this.dialogService = (DialogService) getServletContext().getAttribute(ConstantsServiceName.DIALOG_SERVICE);
     }
+
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
         String loginByFistUser = req.getParameter("fistUser");
         String loginBySecondUser = req.getParameter("secondUser");
 
-        User fistUser = userService.getUserByLogin(loginByFistUser);
-        User secondUser = userService.getUserByLogin(loginBySecondUser);
 
-        Dialogue dialog = dialogService.getByUsers(fistUser, secondUser);
+        Dialogue dialog = dialogService.getByUsers(loginByFistUser, loginBySecondUser);
         req.setAttribute("dialog", dialog);
 
         req.getServletContext().getRequestDispatcher(ConstantsPathJSP.DIALOG_VIEW_PATH).forward(req, resp);

@@ -1,4 +1,4 @@
-package by.insta.dao;
+package by.insta.stotage;
 
 import by.insta.entity.Category;
 

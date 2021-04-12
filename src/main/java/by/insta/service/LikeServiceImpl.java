@@ -1,7 +1,6 @@
 package by.insta.service;
 
-import by.insta.dao.LikeStorage;
-import by.insta.dao.LikeStorageImpl;
+import by.insta.stotage.LikeStorage;
 import by.insta.entity.Like;
 import by.insta.entity.User;
 

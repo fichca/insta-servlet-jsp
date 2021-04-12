@@ -27,7 +27,7 @@
                     <input type="password" name="password" class="form-control" id="password" minlength="3" maxlength="15" required>
                 </div>
 
-                <button type="submit" class="btn btn-primary">Registration</button>
+                <button type="submit" class="btn btn-dark">Registration</button>
             </form>
             <%
                 if ((boolean)request.getAttribute("isErrors")){

@@ -4,7 +4,9 @@ import by.insta.entity.User;
 import by.insta.service.UserService;
 import by.insta.web.constans.ConstantsNameServlet;
 import by.insta.web.constans.ConstantsPathJSP;
+import by.insta.web.constans.ConstantsServiceName;
 import by.insta.web.constans.ConstantsURLPatterns;
+import org.apache.tomcat.dbcp.dbcp2.BasicDataSource;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -21,7 +23,7 @@ public class AuthorizationServlet extends HttpServlet {
 
     @Override
     public void init() throws ServletException {
-        this.userService = (UserService) getServletContext().getAttribute("userService");
+        this.userService = (UserService) getServletContext().getAttribute(ConstantsServiceName.USER_SERVICE);
     }
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -54,5 +56,10 @@ public class AuthorizationServlet extends HttpServlet {
             req.setAttribute("result", "Invalid password");
             req.getServletContext().getRequestDispatcher(ConstantsPathJSP.AUTHORIZATION_PATH).forward(req, resp);
         }
+    }
+
+    public static void main(String[] args) {
+        BasicDataSource a = new BasicDataSource();
+
     }
 }

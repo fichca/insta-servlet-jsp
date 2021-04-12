@@ -6,6 +6,7 @@ import by.insta.service.PostService;
 import by.insta.service.UserService;
 import by.insta.web.constans.ConstantsNameServlet;
 import by.insta.web.constans.ConstantsPathJSP;
+import by.insta.web.constans.ConstantsServiceName;
 import by.insta.web.constans.ConstantsURLPatterns;
 
 import javax.servlet.ServletException;
@@ -25,27 +26,29 @@ public class UserViewServlet extends HttpServlet {
 
     @Override
     public void init() throws ServletException {
-        this.userService = (UserService) getServletContext().getAttribute("userService");
-        this.postService = (PostService) getServletContext().getAttribute("postService");
+        this.userService = (UserService) getServletContext().getAttribute(ConstantsServiceName.USER_SERVICE);
+        this.postService = (PostService) getServletContext().getAttribute(ConstantsServiceName.POST_SERVICE);
     }
 
     @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-
-        String login = req.getParameter("login");
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        String id = req.getParameter("id");
 
         User user;
 
         try {
-            user = userService.getUserByLogin(login);
+            user = userService.getUserById(Integer.parseInt(id));
         } catch (NoSuchElementException e){
             resp.sendRedirect(ConstantsURLPatterns.ALL_POSTS_FEED_SERVLET_URL);
             return;
         }
+
         List<Post> posts = postService.getAllByUser(user);
+
 
         req.setAttribute("posts", posts);
         req.setAttribute("user", user);
         req.getServletContext().getRequestDispatcher(ConstantsPathJSP.VIEW_USER_PATH).forward(req, resp);
     }
+
 }

@@ -16,13 +16,13 @@
                     <c:forEach begin="1" end="${requestScope.countPages}" var="number">
                         <c:if test="${requestScope.numberPage == number}">
                             <li class="page-item active">
-                                <a class="page-link" href="/posts/byCategory?category=${requestScope.category.name}&page=${number}">${number}</a>
+                                <a class="page-link" href="/posts/byCategory?category=${requestScope.category}&page=${number}">${number}</a>
                             </li>
                         </c:if>
 
                         <c:if test="${requestScope.numberPage != number}">
                             <li class="page-item">
-                                <a class="page-link" href="/posts/byCategory?category=${requestScope.category.name}&page=${number}">${number}</a>
+                                <a class="page-link" href="/posts/byCategory?category=${requestScope.category}&page=${number}">${number}</a>
                             </li>
                         </c:if>
                     </c:forEach>

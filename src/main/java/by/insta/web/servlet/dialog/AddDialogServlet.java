@@ -1,10 +1,8 @@
 package by.insta.web.servlet.dialog;
 
-import by.insta.entity.Dialogue;
-import by.insta.entity.User;
 import by.insta.service.DialogService;
-import by.insta.service.UserService;
 import by.insta.web.constans.ConstantsNameServlet;
+import by.insta.web.constans.ConstantsServiceName;
 import by.insta.web.constans.ConstantsURLPatterns;
 
 import javax.servlet.ServletException;
@@ -18,12 +16,10 @@ import java.io.IOException;
 public class AddDialogServlet extends HttpServlet {
 
     private DialogService dialogService;
-    private UserService userService;
 
     @Override
     public void init() throws ServletException {
-        this.dialogService = (DialogService) getServletContext().getAttribute("dialogService");
-        this.userService = (UserService) getServletContext().getAttribute("userService");
+        this.dialogService = (DialogService) getServletContext().getAttribute(ConstantsServiceName.DIALOG_SERVICE);
     }
 
     @Override
@@ -31,12 +27,10 @@ public class AddDialogServlet extends HttpServlet {
 
         String loginByFistUser = req.getParameter("fistUser");
         String loginBySecondUser = req.getParameter("secondUser");
-
-        User fistUser = userService.getUserByLogin(loginByFistUser);
-        User secondUser = userService.getUserByLogin(loginBySecondUser);
-
-        dialogService.addDialog(new Dialogue(fistUser, secondUser));
-
-        req.getServletContext().getRequestDispatcher(ConstantsURLPatterns.VIEW_DIALOG_SERVLET_URL).forward(req, resp);
+        if (dialogService.addDialog(loginByFistUser, loginBySecondUser)){
+            req.getServletContext().getRequestDispatcher(ConstantsURLPatterns.VIEW_DIALOG_SERVLET_URL).forward(req, resp);
+        } else {
+            resp.sendRedirect(ConstantsURLPatterns.ALL_POSTS_FEED_SERVLET_URL);
+        }
     }
 }

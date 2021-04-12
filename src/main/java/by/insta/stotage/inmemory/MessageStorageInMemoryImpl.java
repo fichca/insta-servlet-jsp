@@ -1,5 +1,6 @@
-package by.insta.dao;
+package by.insta.stotage.inmemory;
 
+import by.insta.stotage.MessageStorage;
 import by.insta.entity.Message;
 import by.insta.entity.User;
 
@@ -8,7 +9,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.NoSuchElementException;
 
-public class MessageStorageImpl implements MessageStorage {
+public class MessageStorageInMemoryImpl implements MessageStorage {
     private static final List<Message> MESSAGES = new LinkedList<>();
 
     @Override

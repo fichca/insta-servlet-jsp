@@ -1,6 +1,6 @@
 package by.insta.service;
 
-import by.insta.dao.MessageStorage;
+import by.insta.stotage.MessageStorage;
 import by.insta.entity.Message;
 import by.insta.entity.User;
 

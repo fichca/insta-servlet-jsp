@@ -5,6 +5,7 @@ import by.insta.entity.User;
 import by.insta.service.UserService;
 import by.insta.web.constans.ConstantsNameServlet;
 import by.insta.web.constans.ConstantsPathJSP;
+import by.insta.web.constans.ConstantsServiceName;
 import by.insta.web.constans.ConstantsURLPatterns;
 import by.insta.web.servlet.Util;
 
@@ -22,7 +23,7 @@ public class RegistrationServlet extends HttpServlet {
 
     @Override
     public void init() throws ServletException {
-        this.userService = (UserService) getServletContext().getAttribute("userService");
+        this.userService = (UserService) getServletContext().getAttribute(ConstantsServiceName.USER_SERVICE);
     }
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {

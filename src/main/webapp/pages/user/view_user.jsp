@@ -14,17 +14,15 @@
 
 
         <div class="col-6">
-
             <div class="row justify-content-between">
                 <div class="col">
                     <div class="jumbotron">
                         <h1 class="display-4">${requestScope.user.name}</h1>
                         <hr class="my-4">
                     </div>
-
                 </div>
-                <div class="col-md-4 ms-auto">
 
+                <div class="col-md-4 ms-auto">
                     <c:if test="${sessionScope.user != null}">
                         <c:if test="${sessionScope.user != requestScope.user}">
                             <c:if test="${!sessionScope.user.subscriptions.contains(requestScope.user)}">
@@ -84,12 +82,15 @@
     <div class="row justify-content-center mb-5 mt-5">
         <div class="col-6">
             <div class="card">
+                <div class="card-header">
+                    <h4><strong>${post.user.name}</strong></h4>
+                </div>
                 <div class="card-body">
-                    <p><strong>${post.user.name}</strong></p>
                     <img class="card-img-top" src="${post.url}" alt="${post.url}">
                     <h5 class="card-title">${post.title}</h5>
                     <p class="card-text">${post.description}</p>
-
+                </div>
+                <div class="card-footer text-muted">
                     <div class="row justify-content-between">
                         <div class="col-1">
                             <a href="/viewPost?id=${post.id}" class="btn btn-outline-secondary">

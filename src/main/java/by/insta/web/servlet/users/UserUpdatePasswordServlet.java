@@ -4,6 +4,7 @@ import by.insta.entity.User;
 import by.insta.service.UserService;
 import by.insta.web.constans.ConstantsNameServlet;
 import by.insta.web.constans.ConstantsPathJSP;
+import by.insta.web.constans.ConstantsServiceName;
 import by.insta.web.constans.ConstantsURLPatterns;
 
 import javax.servlet.ServletException;
@@ -20,7 +21,7 @@ public class UserUpdatePasswordServlet extends HttpServlet {
 
     @Override
     public void init() throws ServletException {
-        this.userService = (UserService) getServletContext().getAttribute("userService");
+        this.userService = (UserService) getServletContext().getAttribute(ConstantsServiceName.USER_SERVICE);
     }
 
     @Override
@@ -38,6 +39,7 @@ public class UserUpdatePasswordServlet extends HttpServlet {
 
         String validate;
         if (userService.updatePasswordById(user.getId(), newPassword)) {
+            user.setPassword(newPassword);
             validate = "Deal!";
         } else {
             validate = "Invalidate password";

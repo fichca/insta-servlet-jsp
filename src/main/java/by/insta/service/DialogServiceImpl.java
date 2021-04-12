@@ -1,7 +1,8 @@
 package by.insta.service;
 
-import by.insta.dao.DialogueStorage;
-import by.insta.dao.MessageStorage;
+import by.insta.stotage.DialogueStorage;
+import by.insta.stotage.MessageStorage;
+import by.insta.stotage.UserStorage;
 import by.insta.entity.Dialogue;
 import by.insta.entity.Message;
 import by.insta.entity.User;
@@ -13,19 +14,36 @@ public class DialogServiceImpl implements DialogService {
 
     private final DialogueStorage dialogueStorage;
     private final MessageStorage messageStorage;
+    private final UserStorage userStorage;
 
-    public DialogServiceImpl(DialogueStorage dialogueStorage, MessageStorage messageStorage) {
+    public DialogServiceImpl(DialogueStorage dialogueStorage, MessageStorage messageStorage, UserStorage userStorage) {
         this.dialogueStorage = dialogueStorage;
         this.messageStorage = messageStorage;
+        this.userStorage = userStorage;
     }
+
 
     @Override
     public boolean addDialog(Dialogue dialogue) {
         if (!dialogueStorage.contains(dialogue)) {
-            dialogueStorage.addDialog(dialogue);
+            return dialogueStorage.addDialog(dialogue);
         }
         return false;
     }
+
+    @Override
+    public boolean addDialog(String loginByFistUser, String loginBySecondUser) {
+
+        User fistUser = userStorage.getUserByLogin(loginByFistUser);
+        User secondUser = userStorage.getUserByLogin(loginBySecondUser);
+        Dialogue dialogue = new Dialogue(fistUser, secondUser);
+
+        if (!dialogueStorage.contains(dialogue)) {
+            return dialogueStorage.addDialog(dialogue);
+        }
+        return false;
+    }
+
 
     @Override
     public boolean deleteDialog(Dialogue dialogue) {
@@ -64,6 +82,15 @@ public class DialogServiceImpl implements DialogService {
         }
         throw new NoSuchElementException();
     }
+
+    @Override
+    public Dialogue getByUsers(String loginByFistUser, String loginBySecondUser) {
+        User fistUser = userStorage.getUserByLogin(loginByFistUser);
+        User secondUser = userStorage.getUserByLogin(loginBySecondUser);
+        return getByUsers(fistUser, secondUser);
+    }
+
+
 
     @Override
     public List<Dialogue> getDialogsByUser(User user) {

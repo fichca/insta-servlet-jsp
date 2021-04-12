@@ -1,14 +1,14 @@
-package by.insta.dao;
+package by.insta.stotage.inmemory;
 
+import by.insta.stotage.DialogueStorage;
 import by.insta.entity.Dialogue;
 import by.insta.entity.User;
 
-import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.NoSuchElementException;
 
-public class DialogueStorageImpl implements DialogueStorage {
+public class DialogueStorageInMemoryImpl implements DialogueStorage {
     private static final List<Dialogue> DIALOGUES = new LinkedList<>();
 
     @Override

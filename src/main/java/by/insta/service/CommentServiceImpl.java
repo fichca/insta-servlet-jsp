@@ -1,6 +1,6 @@
 package by.insta.service;
 
-import by.insta.dao.CommentStorage;
+import by.insta.stotage.CommentStorage;
 import by.insta.entity.Comment;
 
 import java.util.List;

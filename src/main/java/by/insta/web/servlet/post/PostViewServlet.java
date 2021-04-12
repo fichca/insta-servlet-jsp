@@ -7,6 +7,7 @@ import by.insta.entity.User;
 import by.insta.service.*;
 import by.insta.web.constans.ConstantsNameServlet;
 import by.insta.web.constans.ConstantsPathJSP;
+import by.insta.web.constans.ConstantsServiceName;
 import by.insta.web.constans.ConstantsURLPatterns;
 
 import javax.servlet.ServletException;
@@ -26,8 +27,8 @@ public class PostViewServlet extends HttpServlet {
 
     @Override
     public void init() throws ServletException {
-        this.postService = (PostService) getServletContext().getAttribute("postService");
-        this.commentService = (CommentService) getServletContext().getAttribute("commentService");
+        this.postService = (PostService) getServletContext().getAttribute(ConstantsServiceName.POST_SERVICE);
+        this.commentService = (CommentService) getServletContext().getAttribute(ConstantsServiceName.COMMENT_SERVICE);
     }
 
 

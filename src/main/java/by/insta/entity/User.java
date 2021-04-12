@@ -18,11 +18,20 @@ public class User {
     private String login;
     private String password;
     private Role role;
+
     private List<User> subscribers = new ArrayList<>();
     private List<User> subscriptions = new ArrayList<>();
 
 
     public User(String name, String login, String password, Role role) {
+        this.name = name;
+        this.login = login;
+        this.password = password;
+        this.role = role;
+    }
+
+    public User(int id, String name, String login, String password, Role role) {
+        this.id = id;
         this.name = name;
         this.login = login;
         this.password = password;
@@ -45,6 +54,7 @@ public class User {
     @Override
     public String toString() {
         return "User{" +
+//                "id='" + id + '\'' +
                 ", name='" + name + '\'' +
                 ", login='" + login + '\'' +
                 ", password='" + password + '\'' +

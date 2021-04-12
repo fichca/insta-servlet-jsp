@@ -4,6 +4,7 @@ import by.insta.entity.Like;
 import by.insta.service.LikeService;
 import by.insta.web.constans.ConstantsNameServlet;
 import by.insta.web.constans.ConstantsPathJSP;
+import by.insta.web.constans.ConstantsServiceName;
 import by.insta.web.constans.ConstantsURLPatterns;
 
 import javax.servlet.ServletException;
@@ -21,7 +22,7 @@ public class LikesViewServlet extends HttpServlet {
 
     @Override
     public void init() throws ServletException {
-        this.likeService = (LikeService) getServletContext().getAttribute("likeService");
+        this.likeService = (LikeService) getServletContext().getAttribute(ConstantsServiceName.LIKE_SERVICE);
     }
 
     @Override

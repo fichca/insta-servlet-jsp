@@ -33,6 +33,8 @@ public interface PostService {
 
     List<Post> getAllByCategory(Category category);
 
+    List<Post> getAllByCategory(String categoryName);
+
     List<Post> getAllBySubscribers(User user);
 
     List<Post> getAllBySubscriptions(User user);

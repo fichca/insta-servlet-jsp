@@ -1,60 +1,83 @@
 package by.insta.web.listener;
 
-import by.insta.dao.*;
 import by.insta.entity.Category;
 import by.insta.entity.Post;
 import by.insta.entity.Role;
 import by.insta.entity.User;
 import by.insta.service.*;
+import by.insta.stotage.*;
+import by.insta.stotage.db.SubscribersStorageDBImpl;
+import by.insta.stotage.db.SubscriptionsStorageDBImpl;
+import by.insta.stotage.db.UserStorageDBImpl;
+import by.insta.stotage.inmemory.*;
 import lombok.SneakyThrows;
+import org.apache.tomcat.dbcp.dbcp2.BasicDataSource;
 
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
-import javax.servlet.SessionCookieConfig;
 import javax.servlet.annotation.WebListener;
-import javax.servlet.http.*;
+import javax.servlet.http.HttpSessionAttributeListener;
+import javax.servlet.http.HttpSessionEvent;
+import javax.servlet.http.HttpSessionListener;
 import java.net.URL;
 import java.util.List;
+
+import static by.insta.web.constans.ConstantsServiceName.*;
 
 @WebListener
 public class Listener implements HttpSessionAttributeListener, HttpSessionListener, ServletContextListener {
 
 
+    @Override
+    public void sessionCreated(HttpSessionEvent se) {
+
+    }
+
     @SneakyThrows
     @Override
     public void contextInitialized(ServletContextEvent sce) {
+        BasicDataSource dataSource = new BasicDataSource();
 
-        CategoryStorage categoryStorage = new CategoryStorageImpl();
-        CommentStorage commentStorage = new CommentStorageImpl();
-        DialogueStorage dialogueStorage = new DialogueStorageImpl();
-        LikeStorage likeStorage = new LikeStorageImpl();
-        MessageStorage messageStorage = new MessageStorageImpl();
-        PostStorage postStorage = new PostStorageImpl();
-        UserStorage userStorage = new UserStorageImpl();
+        dataSource.setUrl("jdbc:postgresql://localhost:5432/insta");
+
+        dataSource.setUsername("postgres");
+        dataSource.setPassword("root");
+        dataSource.setDriverClassName("org.postgresql.Driver");
+        dataSource.setMaxTotal(10);
+//        dataSource.setMaxIdle(5);
+//        dataSource.setMaxWaitMillis(-1);
+//        dataSource.setRemoveAbandonedOnBorrow(true);
+//        dataSource.setRemoveAbandonedTimeout(60);
+//        dataSource.setLogAbandoned(true);
+
+        CategoryStorage categoryStorage = new CategoryStorageInMemoryImpl();
+        CommentStorage commentStorage = new CommentStorageInMemoryImpl();
+        DialogueStorage dialogueStorage = new DialogueStorageInMemoryImpl();
+        LikeStorage likeStorage = new LikeStorageInMemoryImpl();
+        MessageStorage messageStorage = new MessageStorageInMemoryImpl();
+        PostStorage postStorage = new PostStorageInMemoryImpl();
+
+        UserStorage userStorage = new UserStorageDBImpl(dataSource);
+        SubscribersStorage subscribersStorage = new SubscribersStorageDBImpl(dataSource);
+        SubscriptionsStorage subscriptionsStorage = new SubscriptionsStorageDBImpl(dataSource);
+
 
         CategoryService categoryService = new CategoryServiceImpl(categoryStorage);
         CommentService commentService = new CommentServiceImpl(commentStorage);
-        DialogService dialogService = new DialogServiceImpl(dialogueStorage, messageStorage);
+        DialogService dialogService = new DialogServiceImpl(dialogueStorage, messageStorage, userStorage);
         LikeService likeService = new LikeServiceImpl(likeStorage);
         MessageService messageService = new MessageServiceImpl(messageStorage);
-        PostService postService = new PostServiceImpl(postStorage, likeStorage);
-        UserService userService = new UserServiceImpl(userStorage);
+        PostService postService = new PostServiceImpl(postStorage, likeStorage, categoryStorage);
 
+        UserService userService = new UserServiceImpl(userStorage, subscribersStorage, subscriptionsStorage);
 
-        sce.getServletContext().setAttribute("categoryService", categoryService);
-        sce.getServletContext().setAttribute("commentService", commentService);
-        sce.getServletContext().setAttribute("dialogService", dialogService);
-        sce.getServletContext().setAttribute("likeService", likeService);
-        sce.getServletContext().setAttribute("messageService", messageService);
-        sce.getServletContext().setAttribute("postService", postService);
-        sce.getServletContext().setAttribute("userService", userService);
-
-
-        userStorage.addUser(new User("fichca", "fichca", "1234", Role.USER));
-        userStorage.addUser(new User("w580ii@mail.ru", "w580ii@mail.ru", "1234", Role.USER));
-        userStorage.addUser(new User("hohol", "hohol", "1234", Role.USER));
-        userStorage.addUser(new User("+375257572117", "+375257572117", "1234", Role.USER));
-        userStorage.addUser(new User("Kravchenco1974", "Kravchenco1974", "1234", Role.MODERATOR));
+        sce.getServletContext().setAttribute(CATEGORY_SERVICE, categoryService);
+        sce.getServletContext().setAttribute(COMMENT_SERVICE, commentService);
+        sce.getServletContext().setAttribute(DIALOG_SERVICE, dialogService);
+        sce.getServletContext().setAttribute(LIKE_SERVICE, likeService);
+        sce.getServletContext().setAttribute(MASSAGE_SERVICE, messageService);
+        sce.getServletContext().setAttribute(POST_SERVICE, postService);
+        sce.getServletContext().setAttribute(USER_SERVICE, userService);
 
         categoryStorage.addCategory(new Category("fichca"));
         categoryStorage.addCategory(new Category("fupanon"));

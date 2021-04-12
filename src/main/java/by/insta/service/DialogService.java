@@ -9,6 +9,8 @@ public interface DialogService {
 
     boolean addDialog(Dialogue dialogue);
 
+    boolean addDialog(String loginByFistUser, String loginBySecondUser);
+
     boolean deleteDialog(Dialogue dialogue);
 
     boolean deleteDialogById(long id);
@@ -16,6 +18,8 @@ public interface DialogService {
     Dialogue getById(long id);
 
     Dialogue getByUsers(User fistUser, User secondUser);
+
+    Dialogue getByUsers(String loginByFistUser, String loginBySecondUser);
 
     List<Dialogue> getDialogsByUser(User user);
 

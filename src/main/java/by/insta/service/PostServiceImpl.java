@@ -1,14 +1,13 @@
 package by.insta.service;
 
-import by.insta.dao.LikeStorage;
-import by.insta.dao.LikeStorageImpl;
-import by.insta.dao.PostStorage;
+import by.insta.stotage.CategoryStorage;
+import by.insta.stotage.LikeStorage;
+import by.insta.stotage.PostStorage;
 import by.insta.entity.Category;
 import by.insta.entity.Like;
 import by.insta.entity.Post;
 import by.insta.entity.User;
 
-import java.net.URL;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -17,10 +16,12 @@ public class PostServiceImpl implements PostService {
 
     private final PostStorage postStorage;
     private final LikeStorage likeStorage;
+    private final CategoryStorage categoryStorage;
 
-    public PostServiceImpl(PostStorage postStorage, LikeStorage likeStorage) {
-        this.likeStorage = likeStorage;
+    public PostServiceImpl(PostStorage postStorage, LikeStorage likeStorage, CategoryStorage categoryStorage) {
         this.postStorage = postStorage;
+        this.likeStorage = likeStorage;
+        this.categoryStorage = categoryStorage;
     }
 
 
@@ -98,6 +99,12 @@ public class PostServiceImpl implements PostService {
 
     @Override
     public List<Post> getAllByCategory(Category category) {
+        return postStorage.getAllByCategory(category);
+    }
+
+    @Override
+    public List<Post> getAllByCategory(String categoryName) {
+        Category category = categoryStorage.getCategoryByName(categoryName);
         return postStorage.getAllByCategory(category);
     }
 

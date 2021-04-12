@@ -1,10 +1,8 @@
-package by.insta.dao;
+package by.insta.stotage;
 
 import by.insta.entity.Dialogue;
-import by.insta.entity.Message;
 import by.insta.entity.User;
 
-import java.util.Date;
 import java.util.List;
 
 public interface DialogueStorage {

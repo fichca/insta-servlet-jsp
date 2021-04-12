@@ -1,6 +1,7 @@
-package by.insta.dao;
+package by.insta.stotage.inmemory;
 
 import by.insta.Constant;
+import by.insta.stotage.LikeStorage;
 import by.insta.entity.Like;
 import by.insta.entity.User;
 
@@ -8,7 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
 
-public class LikeStorageImpl implements LikeStorage {
+public class LikeStorageInMemoryImpl implements LikeStorage {
 
     private static final List<Like> LIKES = new ArrayList<>();
 

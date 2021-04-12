@@ -1,6 +1,5 @@
-package by.insta.dao;
+package by.insta.stotage;
 
-import by.insta.entity.Dialogue;
 import by.insta.entity.Message;
 import by.insta.entity.User;
 

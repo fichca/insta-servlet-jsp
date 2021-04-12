@@ -1,12 +1,13 @@
-package by.insta.dao;
+package by.insta.stotage.inmemory;
 
+import by.insta.stotage.CategoryStorage;
 import by.insta.entity.Category;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
 
-public class CategoryStorageImpl implements CategoryStorage {
+public class CategoryStorageInMemoryImpl implements CategoryStorage {
 
     private static final List<Category> CATEGORIES = new ArrayList<>();
 
