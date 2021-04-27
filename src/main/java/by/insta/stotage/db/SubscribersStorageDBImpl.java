@@ -12,6 +12,8 @@ import java.sql.SQLException;
 import java.util.List;
 import java.util.NoSuchElementException;
 
+import static by.insta.stotage.db.Util.closeConnection;
+
 public class SubscribersStorageDBImpl implements SubscribersStorage {
     private DataSource dataSource;
 
@@ -27,8 +29,8 @@ public class SubscribersStorageDBImpl implements SubscribersStorage {
             connection = dataSource.getConnection();
             preparedStatement = connection.prepareStatement("INSERT INTO subscription VALUES(?, ?)");
 
-            preparedStatement.setInt(1, user.getId());
-            preparedStatement.setInt(2, subscriber.getId());
+            preparedStatement.setLong(1, user.getId());
+            preparedStatement.setLong(2, subscriber.getId());
 
             preparedStatement.execute();
 
@@ -50,8 +52,8 @@ public class SubscribersStorageDBImpl implements SubscribersStorage {
             connection = dataSource.getConnection();
             preparedStatement = connection.prepareStatement("DELETE FROM subscription WHERE user_id = ? AND subscriber_id = ?");
 
-            preparedStatement.setInt(1, user.getId());
-            preparedStatement.setInt(2, subscriber.getId());
+            preparedStatement.setLong(1, user.getId());
+            preparedStatement.setLong(2, subscriber.getId());
             preparedStatement.execute();
 
         } catch (SQLException throwables) {
@@ -70,7 +72,7 @@ public class SubscribersStorageDBImpl implements SubscribersStorage {
             connection = dataSource.getConnection();
             PreparedStatement preparedStatement = connection.prepareStatement("DELETE FROM subscription WHERE user_id = ?");
 
-            preparedStatement.setInt(1, user.getId());
+            preparedStatement.setLong(1, user.getId());
             preparedStatement.execute();
         } catch (SQLException throwables) {
             throwables.printStackTrace();
@@ -108,8 +110,8 @@ public class SubscribersStorageDBImpl implements SubscribersStorage {
         try {
             connection = dataSource.getConnection();
             preparedStatement = connection.prepareStatement("select * from  subscription WHERE user_id = ? AND subscriber_id = ?");
-            preparedStatement.setInt(1, user.getId());
-            preparedStatement.setInt(2, subscriber.getId());
+            preparedStatement.setLong(1, user.getId());
+            preparedStatement.setLong(2, subscriber.getId());
             return preparedStatement.executeQuery().next();
         } catch (SQLException throwables) {
             throwables.printStackTrace();
@@ -126,7 +128,7 @@ public class SubscribersStorageDBImpl implements SubscribersStorage {
         try {
             connection = dataSource.getConnection();
             preparedStatement = connection.prepareStatement("select * from  subscription WHERE user_id = ?");
-            preparedStatement.setInt(1, user.getId());
+            preparedStatement.setLong(1, user.getId());
             return preparedStatement.executeQuery().next();
         } catch (SQLException throwables) {
             throwables.printStackTrace();
@@ -134,14 +136,5 @@ public class SubscribersStorageDBImpl implements SubscribersStorage {
             closeConnection(connection);
         }
         return false;
-    }
-
-
-    private void closeConnection(Connection connection) {
-        try {
-            connection.close();
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
-        }
     }
 }

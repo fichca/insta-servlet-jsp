@@ -15,7 +15,7 @@ public interface DialogueStorage {
 
     Dialogue getById(long id);
 
-    Dialogue getByUsers(User fistUser, User secondUser);
+    Dialogue getByUsers(User firstUser, User secondUser);
 
     List<Dialogue> getDialogsByUser(User user);
 
@@ -27,7 +27,7 @@ public interface DialogueStorage {
 
     boolean contains(User user);
 
-    boolean contains(User fistUser, User secondUser);
+    boolean contains(User firstUser, User secondUser);
 
 
 }

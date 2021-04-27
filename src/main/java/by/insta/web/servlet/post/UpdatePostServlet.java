@@ -56,7 +56,7 @@ public class UpdatePostServlet extends HttpServlet {
             return;
         }
 
-        post.setUrl(newUrl);
+//        post.setUrl(newUrl);
         post.setDescription(newDescription);
 
         req.setAttribute("result", "Deal!");

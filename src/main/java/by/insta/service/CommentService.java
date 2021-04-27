@@ -7,7 +7,7 @@ import java.util.List;
 public interface CommentService {
     boolean add(Comment comment);
 
-    Comment getById(int id);
+    Comment getById(long id);
 
     List<Comment> getCommentsPage(int start, long postId);
 

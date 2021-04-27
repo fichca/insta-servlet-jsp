@@ -13,15 +13,44 @@
         <div class="col-6">
             <div class="card">
                 <div class="card-header">
-                    <a href="/userView?id=${post.user.id}" class="badge rounded-pill bg-dark" role="button"
+                    <a href="/userView?id=${requestScope.post.user.id}" class="badge rounded-pill bg-dark" role="button"
                        aria-disabled="true"><h4><span
-                            class="badge rounded-pill bg-dark">${post.user.name}</span></h4></a>
+                            class="badge rounded-pill bg-dark">${requestScope.post.user.name}</span></h4></a>
                 </div>
                 <div class="card-body">
 
                     <div class="row">
 
-                        <img class="card-img-top" src="${requestScope.post.url}" alt="${requestScope.post.url}">
+                        <div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel">
+                            <div class="carousel-inner">
+
+                                <c:forEach items="${requestScope.post.imgStringBase64}" var="img" varStatus="status">
+                                    <c:if test="${status.index == 0}">
+                                        <div class="carousel-item active">
+                                            <img class="card-img-top" src="data:image/jpg;base64,${img}"
+                                                 alt="data:image/jpg;base64,${img}">
+                                        </div>
+                                    </c:if>
+                                    <c:if test="${status.index != 0}">
+                                        <div class="carousel-item">
+                                            <img class="card-img-top" src="data:image/jpg;base64,${img}"
+                                                 alt="data:image/jpg;base64,${img}">
+                                        </div>
+                                    </c:if>
+                                </c:forEach>
+
+                            </div>
+                            <button class="carousel-control-prev" type="button"
+                                    data-bs-target="#carouselExampleControls" data-bs-slide="prev">
+                                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                <span class="visually-hidden">Предыдущий</span>
+                            </button>
+                            <button class="carousel-control-next" type="button"
+                                    data-bs-target="#carouselExampleControls" data-bs-slide="next">
+                                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                <span class="visually-hidden">Следующий</span>
+                            </button>
+                        </div>
 
                         <h1 class="display-4">${requestScope.post.title}</h1>
                         <p class="lead"><em>${requestScope.post.description}</em></p><br>
@@ -96,7 +125,7 @@
                                     <path d="M16 8s-3-5.5-8-5.5S0 8 0 8s3 5.5 8 5.5S16 8 16 8zM1.173 8a13.133 13.133 0 0 1 1.66-2.043C4.12 4.668 5.88 3.5 8 3.5c2.12 0 3.879 1.168 5.168 2.457A13.133 13.133 0 0 1 14.828 8c-.058.087-.122.183-.195.288-.335.48-.83 1.12-1.465 1.755C11.879 11.332 10.119 12.5 8 12.5c-2.12 0-3.879-1.168-5.168-2.457A13.134 13.134 0 0 1 1.172 8z"/>
                                     <path d="M8 5.5a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5zM4.5 8a3.5 3.5 0 1 1 7 0 3.5 3.5 0 0 1-7 0z"/>
                                 </svg>
-                                ${requestScope.post.countView.size()}</p>
+                                ${requestScope.post.views.size()}</p>
                         </div>
                     </div>
                 </div>

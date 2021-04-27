@@ -1,10 +1,10 @@
 package by.insta.stotage.inmemory;
 
-import by.insta.stotage.PostStorage;
+import by.insta.Constant;
 import by.insta.entity.Category;
 import by.insta.entity.Post;
-import by.insta.Constant;
 import by.insta.entity.User;
+import by.insta.stotage.PostStorage;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -17,14 +17,30 @@ public class PostStorageInMemoryImpl implements PostStorage {
     private static final LinkedList<Post> POSTS = new LinkedList<>();
 
 
-
     @Override
-    public boolean add(Post post){
+    public boolean add(Post post) {
         int size = POSTS.size();
         post.setId(++size);
         POSTS.addFirst(post);
         return true;
     }
+
+    @Override
+    public void addUserViewByPost(Post post, User user) {
+        post.getViews().add(user);
+    }
+
+
+//    @Override
+//    public void addCountViewByPostId(long postId) {
+//        for (Post post : POSTS) {
+//            if (post.getId() == postId){
+//                int view = post.getView();
+//                post.setView(++view);
+//                return;
+//            }
+//        }
+//    }
 
     @Override
     public boolean delete(Post post) {
@@ -37,48 +53,60 @@ public class PostStorageInMemoryImpl implements PostStorage {
     }
 
     @Override
+    public void approvePost(Post post) {
+        post.setApproved(true);
+    }
+
+    @Override
+    public void rejectPost(Post post) {
+        post.setApproved(false);
+    }
+
+    @Override
     public Post getById(long id) {
         for (Post post : POSTS) {
-            if (post.getId() == id){
+            if (post.getId() == id) {
                 return post;
             }
-        } throw new NoSuchElementException();
+        }
+        throw new NoSuchElementException();
     }
 
     @Override
     public Post getByTitle(String title) {
         for (Post post : POSTS) {
-            if (post.getTitle().equals(title)){
+            if (post.getTitle().equals(title)) {
                 return post;
             }
-        } throw new NoSuchElementException();
+        }
+        throw new NoSuchElementException();
     }
 
     @Override
-    public List<Post> getPage(int start){
-        if (POSTS.isEmpty()){
+    public List<Post> getPage(int start) {
+        if (POSTS.isEmpty()) {
             return POSTS;
         }
         int end = start;
         for (int i = start; i < POSTS.size(); i++) {
-            if (end == start + Constant.PAGES){
+            if (end == start + Constant.PAGES) {
                 break;
             }
-                end++;
+            end++;
         }
         return POSTS.subList(start, end);
     }
 
     @Override
-    public int getCountPages(){
-        if (POSTS.isEmpty()){
+    public int getCountPages() {
+        if (POSTS.isEmpty()) {
             return 1;
         }
         return ((POSTS.size() - 1) / Constant.PAGES) + 1;
     }
 
     @Override
-    public List<Post> getAll(){
+    public List<Post> getAll() {
         return POSTS;
     }
 
@@ -87,10 +115,10 @@ public class PostStorageInMemoryImpl implements PostStorage {
         return getAllApprovePost();
     }
 
-    private List<Post> getAllApprovePost(){
+    private List<Post> getAllApprovePost() {
         List<Post> postsApprove = new LinkedList<>();
         for (Post post : PostStorageInMemoryImpl.POSTS) {
-            if (post.isApproved()){
+            if (post.isApproved()) {
                 postsApprove.add(post);
             }
         }
@@ -101,7 +129,7 @@ public class PostStorageInMemoryImpl implements PostStorage {
     public List<Post> getAllNotApprove() {
         List<Post> postsNotApprove = new LinkedList<>();
         for (Post post : PostStorageInMemoryImpl.POSTS) {
-            if (!post.isApproved()){
+            if (!post.isApproved()) {
                 postsNotApprove.add(post);
             }
         }
@@ -114,7 +142,7 @@ public class PostStorageInMemoryImpl implements PostStorage {
         List<Post> allApprove = getAllApprove();
 
         for (Post post : allApprove) {
-            if (post.getUser().equals(user)){
+            if (post.getUser().equals(user)) {
                 postsByUser.add(post);
             }
         }
@@ -126,7 +154,7 @@ public class PostStorageInMemoryImpl implements PostStorage {
         ArrayList<Post> postsByCategory = new ArrayList<>();
         List<Post> allApprovePost = getAllApprovePost();
         for (Post post : allApprovePost) {
-            if (post.getCategory().equals(category)){
+            if (post.getCategory().equals(category)) {
                 postsByCategory.add(post);
             }
         }
@@ -136,7 +164,7 @@ public class PostStorageInMemoryImpl implements PostStorage {
     @Override
     public boolean contains(String title) {
         for (Post post : POSTS) {
-            if (post.getTitle().equals(title)){
+            if (post.getTitle().equals(title)) {
 
                 return true;
             }
@@ -152,7 +180,7 @@ public class PostStorageInMemoryImpl implements PostStorage {
     @Override
     public boolean contains(long id) {
         for (Post post : POSTS) {
-            if (post.getId() == id){
+            if (post.getId() == id) {
                 return true;
             }
         }

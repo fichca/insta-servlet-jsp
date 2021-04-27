@@ -10,9 +10,16 @@ public interface PostStorage {
 
     boolean add(Post post);
 
-    boolean delete (Post post);
+    //    void addCountViewByPostId(long postId);
+    void addUserViewByPost(Post post, User user);
 
-    boolean delete (long id);
+    boolean delete(Post post);
+
+    boolean delete(long id);
+
+    void approvePost(Post post);
+
+    void rejectPost(Post post);
 
     Post getById(long id);
 

@@ -1,16 +1,17 @@
 package by.insta.service;
 
-import by.insta.stotage.CategoryStorage;
-import by.insta.stotage.LikeStorage;
-import by.insta.stotage.PostStorage;
 import by.insta.entity.Category;
 import by.insta.entity.Like;
 import by.insta.entity.Post;
 import by.insta.entity.User;
+import by.insta.stotage.CategoryStorage;
+import by.insta.stotage.LikeStorage;
+import by.insta.stotage.PostStorage;
 
-import java.util.LinkedList;
-import java.util.List;
-import java.util.NoSuchElementException;
+import javax.servlet.http.Part;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.*;
 
 public class PostServiceImpl implements PostService {
 
@@ -24,7 +25,6 @@ public class PostServiceImpl implements PostService {
         this.categoryStorage = categoryStorage;
     }
 
-
     @Override
     public boolean add(Post post) {
         if (!postStorage.contains(post.getTitle())) {
@@ -35,7 +35,7 @@ public class PostServiceImpl implements PostService {
 
     @Override
     public boolean delete(Post post) {
-        if (postStorage.contains(post)){
+        if (postStorage.contains(post)) {
             return postStorage.delete(post);
         }
         return false;
@@ -43,10 +43,33 @@ public class PostServiceImpl implements PostService {
 
     @Override
     public boolean delete(long id) {
-        if (postStorage.contains(id)){
+        if (postStorage.contains(id)) {
+
             return postStorage.delete(id);
         }
         return false;
+    }
+
+    @Override
+    public void addUserViewByPost(Post post, User user) {
+        if (postStorage.contains(post)) {
+            postStorage.addUserViewByPost(post, user);
+        }
+    }
+
+
+    @Override
+    public void approvePost(Post post) {
+        if (postStorage.contains(post)) {
+            postStorage.approvePost(post);
+        }
+    }
+
+    @Override
+    public void rejectPost(Post post) {
+        if (postStorage.contains(post)) {
+            postStorage.rejectPost(post);
+        }
     }
 
     @Override
@@ -62,9 +85,13 @@ public class PostServiceImpl implements PostService {
 
     @Override
     public Post getByTitle(String title) {
-        if (postStorage.contains(title)){
-            return postStorage.getByTitle(title);
-        } throw new NoSuchElementException();
+        if (postStorage.contains(title)) {
+            Post post = postStorage.getByTitle(title);
+            List<Like> allLikesByPostId = likeStorage.getAllLikesByPostId(post.getId());
+            post.setLikes(allLikesByPostId);
+            return post;
+        }
+        throw new NoSuchElementException();
     }
 
     @Override
@@ -99,7 +126,7 @@ public class PostServiceImpl implements PostService {
 
     @Override
     public List<Post> getAllByCategory(Category category) {
-        return postStorage.getAllByCategory(category);
+        return getAllByCategory(category);
     }
 
     @Override
@@ -120,13 +147,30 @@ public class PostServiceImpl implements PostService {
         return getAllPostsUsers(subscriptions);
     }
 
-    private List<Post> getAllPostsUsers(List<User> users){
+    @Override
+    public List<String> getListImg(Collection<Part> parts) throws IOException {
+        List<String> imgString = new ArrayList<>(3);
+        Base64.Encoder encoder = Base64.getEncoder();
+        for (Part part : parts) {
+            String contentType = part.getContentType();
+            if (contentType != null && contentType.equals("image/jpeg")) {
+                InputStream inputStream = part.getInputStream();
+                byte[] buffer = new byte[inputStream.available()];
+                inputStream.read(buffer);
+                String s = encoder.encodeToString(buffer);
+                imgString.add(s);
+            }
+        }
+        return imgString;
+    }
+
+    private List<Post> getAllPostsUsers(List<User> users) {
         List<Post> posts = new LinkedList<>();
         List<Post> all = postStorage.getAllApprove();
 
         for (Post post : all) {
             User userByPost = post.getUser();
-            if (users.contains(userByPost)){
+            if (users.contains(userByPost)) {
                 posts.add(post);
             }
         }

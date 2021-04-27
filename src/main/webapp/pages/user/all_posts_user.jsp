@@ -19,7 +19,36 @@
                         <h4><strong>${post.user.name}</strong></h4>
                     </div>
                     <div class="card-body">
-                        <img class="card-img-top" src="${post.url}" alt="${post.url}">
+                        <div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel">
+                            <div class="carousel-inner">
+
+                                <c:forEach items="${post.imgStringBase64}" var="img" varStatus="status">
+                                    <c:if test="${status.index == 0}">
+                                        <div class="carousel-item active">
+                                            <img class="card-img-top" src="data:image/jpg;base64,${img}"
+                                                 alt="data:image/jpg;base64,${img}">
+                                        </div>
+                                    </c:if>
+                                    <c:if test="${status.index != 0}">
+                                        <div class="carousel-item">
+                                            <img class="card-img-top" src="data:image/jpg;base64,${img}"
+                                                 alt="data:image/jpg;base64,${img}">
+                                        </div>
+                                    </c:if>
+                                </c:forEach>
+
+                            </div>
+                            <button class="carousel-control-prev" type="button"
+                                    data-bs-target="#carouselExampleControls" data-bs-slide="prev">
+                                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                <span class="visually-hidden">Предыдущий</span>
+                            </button>
+                            <button class="carousel-control-next" type="button"
+                                    data-bs-target="#carouselExampleControls" data-bs-slide="next">
+                                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                <span class="visually-hidden">Следующий</span>
+                            </button>
+                        </div>
                         <h5 class="card-title">${post.title}</h5>
                         <p class="card-text">${post.description}</p>
 

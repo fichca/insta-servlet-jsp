@@ -19,7 +19,7 @@ public class CommentStorageInMemoryImpl implements CommentStorage {
     }
 
     @Override
-    public Comment getById(int id) {
+    public Comment getById(long id) {
 
         for (Comment comment : COMMENTS) {
             if (comment.getId() == id){
@@ -80,7 +80,7 @@ public class CommentStorageInMemoryImpl implements CommentStorage {
     }
 
     @Override
-    public boolean contains(int id) {
+    public boolean contains(long id) {
         for (Comment comment : COMMENTS) {
             if (comment.getId() == id){
                 return true;

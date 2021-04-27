@@ -27,7 +27,7 @@ public class ApprovedPostsServlet extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String postId = req.getParameter("id");
         Post byId = postService.getById(Integer.parseInt(postId));
-        byId.setApproved(true);
+        postService.approvePost(byId);
         resp.sendRedirect(ConstantsURLPatterns.VIEW_NOT_APPROVED_POSTS_SERVLET_URL);
     }
 }

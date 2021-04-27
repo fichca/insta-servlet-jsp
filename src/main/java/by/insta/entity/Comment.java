@@ -22,4 +22,5 @@ public class Comment {
         this.comment = comment;
         this.user = user;
     }
+
 }

@@ -13,7 +13,7 @@ import java.util.Objects;
 @NoArgsConstructor
 public class User {
 
-    private int id;
+    private long id;
     private String name;
     private String login;
     private String password;
@@ -30,7 +30,7 @@ public class User {
         this.role = role;
     }
 
-    public User(int id, String name, String login, String password, Role role) {
+    public User(long id, String name, String login, String password, Role role) {
         this.id = id;
         this.name = name;
         this.login = login;

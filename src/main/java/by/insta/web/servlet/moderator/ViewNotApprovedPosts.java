@@ -13,12 +13,14 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Base64;
 import java.util.List;
 
-@WebServlet( urlPatterns = ConstantsURLPatterns.VIEW_NOT_APPROVED_POSTS_SERVLET_URL, name = ConstantsNameServlet.VIEW_NOT_APPROVED_POSTS_SERVLET_NAME)
+@WebServlet(urlPatterns = ConstantsURLPatterns.VIEW_NOT_APPROVED_POSTS_SERVLET_URL, name = ConstantsNameServlet.VIEW_NOT_APPROVED_POSTS_SERVLET_NAME)
 public class ViewNotApprovedPosts extends HttpServlet {
 
-    private  PostService postService;
+    private PostService postService;
 
     @Override
     public void init() throws ServletException {
@@ -28,7 +30,6 @@ public class ViewNotApprovedPosts extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         List<Post> allNotApproved = postService.getAllNotApprove();
-
         req.setAttribute("posts", allNotApproved);
         req.getServletContext().getRequestDispatcher(ConstantsPathJSP.ALL_NOT_APPROVED_PATH).forward(req, resp);
     }

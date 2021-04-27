@@ -39,14 +39,14 @@ public class DialogueStorageInMemoryImpl implements DialogueStorage {
     }
 
     @Override
-    public Dialogue getByUsers(User fistUser, User secondUser) {
+    public Dialogue getByUsers(User firstUser, User secondUser) {
         for (Dialogue dialogue : DIALOGUES) {
-            User dialogueFistUser = dialogue.getFistUser();
+            User dialogueFistUser = dialogue.getFirstUser();
             User dialogueSecondUser = dialogue.getSecondUser();
 
-            if (dialogueFistUser.equals(fistUser) && dialogueSecondUser.equals(secondUser)){
+            if (dialogueFistUser.equals(firstUser) && dialogueSecondUser.equals(secondUser)){
                 return dialogue;
-            }else if (dialogueSecondUser.equals(fistUser) && dialogueFistUser.equals(secondUser)){
+            }else if (dialogueSecondUser.equals(firstUser) && dialogueFistUser.equals(secondUser)){
                 return dialogue;
             }
         } throw new NoSuchElementException();
@@ -57,7 +57,7 @@ public class DialogueStorageInMemoryImpl implements DialogueStorage {
 
         List<Dialogue> dialoguesByUser = new LinkedList<>();
         for (Dialogue dialogue : DIALOGUES) {
-            User dialogueFistUser = dialogue.getFistUser();
+            User dialogueFistUser = dialogue.getFirstUser();
             User dialogueSecondUser = dialogue.getSecondUser();
 
             if (dialogueFistUser.equals(user) || dialogueSecondUser.equals(user)){
@@ -89,7 +89,7 @@ public class DialogueStorageInMemoryImpl implements DialogueStorage {
     @Override
     public boolean contains(User user) {
         for (Dialogue dialogue : DIALOGUES) {
-            if (dialogue.getFistUser().equals(user) || dialogue.getSecondUser().equals(user)){
+            if (dialogue.getFirstUser().equals(user) || dialogue.getSecondUser().equals(user)){
                 return true;
             }
         }
@@ -97,14 +97,14 @@ public class DialogueStorageInMemoryImpl implements DialogueStorage {
     }
 
     @Override
-    public boolean contains(User fistUser, User secondUser) {
+    public boolean contains(User firstUser, User secondUser) {
         for (Dialogue dialogue : DIALOGUES) {
-            User dialogueFistUser = dialogue.getFistUser();
+            User dialogueFistUser = dialogue.getFirstUser();
             User dialogueSecondUser = dialogue.getSecondUser();
 
-            if (dialogueFistUser.equals(fistUser) && dialogueSecondUser.equals(secondUser)) {
+            if (dialogueFistUser.equals(firstUser) && dialogueSecondUser.equals(secondUser)) {
                 return true;
-            } else if (dialogueSecondUser.equals(fistUser) && dialogueFistUser.equals(secondUser)) {
+            } else if (dialogueSecondUser.equals(firstUser) && dialogueFistUser.equals(secondUser)) {
                 return true;
             }
 

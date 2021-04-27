@@ -8,7 +8,7 @@ public interface CommentStorage {
 
     boolean add(Comment comment);
 
-    Comment getById(int id);
+    Comment getById(long id);
 
     List<Comment> getCommentsPage(int start, long postId);
 
@@ -20,5 +20,5 @@ public interface CommentStorage {
 
     boolean contains(Comment comment);
 
-    boolean contains(int id);
+    boolean contains(long id);
 }

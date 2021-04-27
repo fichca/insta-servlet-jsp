@@ -4,7 +4,8 @@ import by.insta.Constant;
 import by.insta.entity.Comment;
 import by.insta.entity.Post;
 import by.insta.entity.User;
-import by.insta.service.*;
+import by.insta.service.CommentService;
+import by.insta.service.PostService;
 import by.insta.web.constans.ConstantsNameServlet;
 import by.insta.web.constans.ConstantsPathJSP;
 import by.insta.web.constans.ConstantsServiceName;
@@ -63,19 +64,10 @@ public class PostViewServlet extends HttpServlet {
 
     private void setPostInAttribute(HttpServletRequest req, List<Comment> commentsPage, Post post){
         User user = (User) req.getSession().getAttribute("user");
-        addView(user, post);
+        if (user != null){
+            postService.addUserViewByPost(post, user);
+        }
         post.setComments(commentsPage);
        req.setAttribute("post", post);
     }
-
-    private void addView(User user, Post post){
-        if (user == null) return;
-        int id = user.getId();
-        List<Integer> countView = post.getCountView();
-        if (!countView.contains(id)){
-            countView.add(id);
-        }
-    }
-
-
 }

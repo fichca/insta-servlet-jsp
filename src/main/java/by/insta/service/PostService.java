@@ -4,7 +4,9 @@ import by.insta.entity.Category;
 import by.insta.entity.Post;
 import by.insta.entity.User;
 
-import java.net.URL;
+import javax.servlet.http.Part;
+import java.io.IOException;
+import java.util.Collection;
 import java.util.List;
 
 public interface PostService {
@@ -14,6 +16,12 @@ public interface PostService {
     boolean delete (Post post);
 
     boolean delete (long id);
+
+    void addUserViewByPost(Post post, User user);
+
+    void approvePost(Post post);
+
+    void rejectPost(Post post);
 
     Post getById(long id);
 
@@ -38,4 +46,6 @@ public interface PostService {
     List<Post> getAllBySubscribers(User user);
 
     List<Post> getAllBySubscriptions(User user);
+
+    List<String> getListImg(Collection<Part> parts) throws IOException;
 }

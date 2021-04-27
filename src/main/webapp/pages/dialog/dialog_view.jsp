@@ -18,7 +18,7 @@
 
             <div class="mb-3">
                 <input type="hidden" value="${requestScope.dialog.id}" name="dialogId">
-                <input type="hidden" value="${requestScope.dialog.fistUser.login}" name="fistUser">
+                <input type="hidden" value="${requestScope.dialog.firstUser.login}" name="fistUser">
                 <input type="hidden" value="${requestScope.dialog.secondUser.login}" name="secondUser">
                 <input type="text" name="message" class="form-control" id="description"
                        aria-describedby="message" minlength="3" maxlength="255" required>

@@ -12,6 +12,9 @@ import java.sql.SQLException;
 import java.util.List;
 import java.util.NoSuchElementException;
 
+import static by.insta.stotage.db.Util.closeConnection;
+
+
 public class UserStorageDBImpl implements UserStorage {
 
     private DataSource dataSource;
@@ -24,9 +27,9 @@ public class UserStorageDBImpl implements UserStorage {
     @Override
     public boolean addUser(User user) {
         Connection connection = null;
+
         try {
             connection = dataSource.getConnection();
-
             PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO users VALUES(DEFAULT, ?, ?, ?, ?)");
 
             preparedStatement.setString(1, user.getName());
@@ -220,11 +223,5 @@ public class UserStorageDBImpl implements UserStorage {
         return false;
     }
 
-    private void closeConnection(Connection connection) {
-        try {
-            connection.close();
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
-        }
-    }
+
 }

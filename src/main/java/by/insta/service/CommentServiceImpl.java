@@ -20,7 +20,7 @@ public class CommentServiceImpl implements CommentService {
     }
 
     @Override
-    public Comment getById(int id) {
+    public Comment getById(long id) {
         if (commentStorage.contains(id)){
             return commentStorage.getById(id);
         }

@@ -14,12 +14,18 @@ import java.util.Objects;
 public class Dialogue {
 
     private long id;
-    private User fistUser;
+    private User firstUser;
     private User secondUser;
     private List<Message> messages = new LinkedList<>();
 
-    public Dialogue(User fistUser, User secondUser) {
-        this.fistUser = fistUser;
+    public Dialogue(User firstUser, User secondUser) {
+        this.firstUser = firstUser;
+        this.secondUser = secondUser;
+    }
+
+    public Dialogue(long id, User fistUser, User secondUser) {
+        this.id = id;
+        this.firstUser = fistUser;
         this.secondUser = secondUser;
     }
 
@@ -28,11 +34,11 @@ public class Dialogue {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Dialogue dialogue = (Dialogue) o;
-        return Objects.equals(fistUser, dialogue.fistUser) && Objects.equals(secondUser, dialogue.secondUser);
+        return Objects.equals(firstUser, dialogue.firstUser) && Objects.equals(secondUser, dialogue.secondUser);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(fistUser, secondUser);
+        return Objects.hash(firstUser, secondUser);
     }
 }
